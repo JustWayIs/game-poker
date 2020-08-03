@@ -1,7 +1,8 @@
 package com.yude.game.doudizhu.timeout;
 
-import com.yude.game.poker.common.timeout.TimeoutTask;
-import com.yude.game.poker.common.timeout.TimeoutTaskPool;
+
+import com.yude.game.common.timeout.TimeoutTask;
+import com.yude.game.common.timeout.TimeoutTaskPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

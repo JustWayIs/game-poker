@@ -1,9 +1,10 @@
 package com.yude.game.doudizhu.application.service.impl;
 
 
+import com.yude.game.common.manager.IRoomManager;
 import com.yude.game.doudizhu.application.request.MatchRequest;
 import com.yude.game.doudizhu.application.service.JoinRoomService;
-import com.yude.game.poker.common.manager.IRoomManager;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

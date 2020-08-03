@@ -1,8 +1,8 @@
 package com.yude.game.doudizhu.domain.action;
 
-import com.yude.game.poker.common.manager.IRoomManager;
-import com.yude.game.poker.common.model.Player;
 
+import com.yude.game.common.manager.IRoomManager;
+import com.yude.game.common.model.Player;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package com.yude.game.doudizhu.domain;
 
+import com.yude.game.common.model.AbstractGameZoneModel;
 import com.yude.game.doudizhu.constant.RuleConfig;
 import com.yude.game.doudizhu.constant.status.GameStatusEnum;
 import com.yude.game.doudizhu.constant.status.SeatStatusEnum;
@@ -9,7 +10,7 @@ import com.yude.game.doudizhu.domain.card.CardTypeEnum;
 import com.yude.game.doudizhu.domain.card.PokerProp;
 import com.yude.game.doudizhu.domain.history.*;
 import com.yude.game.doudizhu.application.response.RedoubleDetailResponse;
-import com.yude.game.poker.common.model.AbstractGameZoneModel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

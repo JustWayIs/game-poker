@@ -1,21 +1,21 @@
 package com.yude.game.doudizhu.domain.manager;
 
+import com.yude.game.common.constant.PlayerStatusEnum;
+import com.yude.game.common.constant.Status;
+import com.yude.game.common.exception.BizException;
+import com.yude.game.common.exception.SystemException;
+import com.yude.game.common.manager.IPushManager;
+import com.yude.game.common.manager.IRoomManager;
+import com.yude.game.common.model.AbstractRoomModel;
+import com.yude.game.common.model.Player;
+import com.yude.game.common.util.AtomicSeatDown;
+import com.yude.game.common.util.TempSeatPool;
 import com.yude.game.doudizhu.constant.command.PushCommandCode;
 import com.yude.game.doudizhu.application.response.MatchFinishResponse;
 import com.yude.game.doudizhu.application.response.dto.PlayerDTO;
 import com.yude.game.doudizhu.application.response.dto.SeatInfoDTO;
 
-import com.yude.game.poker.common.constant.PlayerStatusEnum;
-import com.yude.game.poker.common.constant.Status;
-import com.yude.game.poker.common.exception.BizException;
-import com.yude.game.poker.common.exception.SystemException;
-import com.yude.game.poker.common.manager.IPushManager;
-import com.yude.game.poker.common.manager.IRoomManager;
 
-import com.yude.game.poker.common.model.AbstractRoomModel;
-import com.yude.game.poker.common.model.Player;
-import com.yude.game.poker.common.util.AtomicSeatDown;
-import com.yude.game.poker.common.util.TempSeatPool;
 import com.yude.protocol.common.constant.StatusCodeEnum;
 
 import org.slf4j.Logger;

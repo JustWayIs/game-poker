@@ -1,7 +1,8 @@
 package com.yude.game.doudizhu.domain.history;
 
+import com.yude.game.common.constant.Status;
 import com.yude.game.doudizhu.domain.card.Card;
-import com.yude.game.poker.common.constant.Status;
+
 
 /**
  * @Author: HH

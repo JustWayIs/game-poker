@@ -7,6 +7,9 @@ package com.yude.game.doudizhu.application.controller;
  * @Declare:
  */
 
+import com.yude.game.common.command.annotation.RequestCommand;
+import com.yude.game.common.command.annotation.RequestController;
+import com.yude.game.common.exception.BizException;
 import com.yude.game.doudizhu.constant.command.CommandCode;
 import com.yude.game.doudizhu.application.request.CallScoreRequest;
 import com.yude.game.doudizhu.application.request.OperationCardRequest;
@@ -14,9 +17,7 @@ import com.yude.game.doudizhu.application.request.ReconnectionRequest;
 import com.yude.game.doudizhu.application.request.RedoubleScoreRequest;
 import com.yude.game.doudizhu.application.service.PlayerActionService;
 
-import com.yude.game.poker.common.command.annotation.RequestCommand;
-import com.yude.game.poker.common.command.annotation.RequestController;
-import com.yude.game.poker.common.exception.BizException;
+
 import com.yude.protocol.common.constant.StatusCodeEnum;
 import com.yude.protocol.common.response.CommonResponse;
 import com.yude.protocol.common.response.Response;

@@ -1,6 +1,7 @@
 package com.yude.game.doudizhu.constant.command;
 
-import com.yude.game.poker.common.command.BaseCommandCode;
+
+import com.yude.game.common.command.BaseCommandCode;
 
 /**
  * @Author: HH

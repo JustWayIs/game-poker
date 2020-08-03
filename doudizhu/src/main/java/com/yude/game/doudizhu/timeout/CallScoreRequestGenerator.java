@@ -1,12 +1,12 @@
 package com.yude.game.doudizhu.timeout;
 
+import com.yude.game.common.timeout.TimeoutRequestGenerator;
 import com.yude.game.doudizhu.constant.command.CommandCode;
 import com.yude.game.doudizhu.constant.status.GameStatusEnum;
 import com.yude.game.doudizhu.domain.DouDiZhuRoom;
 import com.yude.game.doudizhu.domain.DouDiZhuZone;
 
 import com.yude.game.doudizhu.application.request.CallScoreRequest;
-import com.yude.game.poker.common.timeout.TimeoutRequestGenerator;
 
 import java.util.List;
 import java.util.Optional;

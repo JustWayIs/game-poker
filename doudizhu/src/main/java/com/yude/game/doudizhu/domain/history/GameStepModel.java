@@ -1,7 +1,7 @@
 package com.yude.game.doudizhu.domain.history;
 
 
-import com.yude.game.poker.common.model.Player;
+import com.yude.game.common.model.Player;
 
 /**
  * @Author: HH

@@ -1,7 +1,6 @@
 package com.yude.game.doudizhu.domain.card;
 
-import com.yude.game.poker.common.exception.BizException;
-
+import com.yude.game.common.exception.BizException;
 import com.yude.protocol.common.constant.StatusCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
