@@ -52,6 +52,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         timeoutTaskPool = DdzTimeoutTaskPool.getInstance();
     }
 
+    @Override
     public GameStatusEnum getGameStatus() {
         return gameZone.getGameStatus();
     }
@@ -753,6 +754,23 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         }
         CurrentOperatorResponse response = new CurrentOperatorResponse(operatorList, gameZone.getGameStatus().getTimeoutTime());
         pushToRoomUser(PushCommandCode.CURRENT_OPERATOR, response, excludeUserIds);
+
+        /**
+         * 如果获得主动出牌权的玩家还剩下一张牌，让其自动出牌
+         */
+        if(GameStatusEnum.OPERATION_CARD.equals(gameZone.getGameStatus())){
+            Integer currentPosId = operatorList.get(0);
+            DouDiZhuSeat douDiZhuSeat = posIdSeatMap.get(currentPosId);
+            List<Integer> handCardList = douDiZhuSeat.getHandCardList();
+            if(handCardList.size() == 1){
+                int lastOutCardPosId = gameZone.getLastOutCardPosId();
+                if(currentPosId == lastOutCardPosId){
+                    ddzTimeoutTask = new DdzTimeoutTask(100, this, roomManager.getPushManager());
+                    timeoutTaskPool.addTask(ddzTimeoutTask);
+                }
+            }
+
+        }
     }
 
     /**

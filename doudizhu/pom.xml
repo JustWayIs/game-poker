@@ -17,5 +17,89 @@
             <groupId>game.poker</groupId>
             <artifactId>common</artifactId>
         </dependency>
+
+        <!--百度对protobuf的封装,屏蔽使用原生protobuf带来的繁琐，避免开发人员做跳出语言之外的事-->
+        <dependency>
+            <groupId>com.baidu</groupId>
+            <artifactId>jprotobuf</artifactId>
+            <version>2.4.3</version>
+        </dependency>
+
+        <!--JProtobuf中的预编译插件的ClassScanner用到了这个包，由于本地预编译有问题，可能需要借助测试类手动生成pb文件 和 动态类，所以保留这个-->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-core</artifactId>
+            <version>3.8</version>
+        </dependency>
     </dependencies>
+
+
+    <build>
+        <finalName>DdzApplication</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <!--<excludes>
+                        <exclude>config/</exclude>
+                    </excludes>-->
+                    <outputDirectory>
+                        ${project.build.directory}/lib
+                    </outputDirectory>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.yude.game.doudizhu.DdzGameAppliaction</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/lib
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.baidu</groupId>
+                <artifactId>jprotobuf-precompile-plugin</artifactId>
+                <version>2.2.2</version>
+                <configuration>
+                    <!--<skipErrorNoDescriptorsdFound>true</skipErrorNoDescriptorsdFound>-->
+                    <filterClassPackage>com.yude.protocol</filterClassPackage>
+                    <generateProtoFile>true</generateProtoFile>
+                    <!--这个版本compileDependencies默认是true-->
+                    <compileDependencies>true</compileDependencies>
+                    <!--指定输出proto文件的目录，但是没有删除classes下面的-->
+                    <outputDirectory>E:\\JProtobuf</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>precompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
