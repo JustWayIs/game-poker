@@ -322,7 +322,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
 
         List<Integer> handCardList = douDiZhuSeat.getHandCardList();
         if (size != 0 && !isExistsAll(handCardList, cardList)) {
-            log.error("roomId={} 出牌参数中，有的牌在手牌中不存在", roomId);
+            log.error("roomId={} 出牌参数中，有的牌在手牌中不存在 param={}  handcard={}", roomId,cardList,handCardList);
             throw new BizException(StatusCodeEnum.ILLEGAL_CARD);
         }
         timeoutTaskPool.addUseLessTask(roomId, getStep());
