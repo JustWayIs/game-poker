@@ -83,12 +83,12 @@
                 <version>2.2.2</version>
                 <configuration>
                     <!--<skipErrorNoDescriptorsdFound>true</skipErrorNoDescriptorsdFound>-->
-                    <filterClassPackage>com.yude.protocol</filterClassPackage>
+                    <filterClassPackage>com.yude</filterClassPackage>
                     <generateProtoFile>true</generateProtoFile>
                     <!--这个版本compileDependencies默认是true-->
                     <compileDependencies>true</compileDependencies>
-                    <!--指定输出proto文件的目录，但是没有删除classes下面的-->
-                    <outputDirectory>E:\\JProtobuf</outputDirectory>
+                    <!--指定输出proto文件的目录，但是删除classes了下面的-->
+                    <!--<outputDirectory>E:\\JProtobuf</outputDirectory>-->
                 </configuration>
                 <executions>
                     <execution>
