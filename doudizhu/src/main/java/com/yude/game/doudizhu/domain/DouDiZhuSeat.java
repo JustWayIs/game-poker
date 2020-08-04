@@ -45,8 +45,6 @@ public class DouDiZhuSeat extends AbstractSeatModel implements Cloneable {
     private Status status;
 
 
-    private volatile int serialTimeoutCount = 0;
-
     private List<CardDTO> tips;
 
     public DouDiZhuSeat(Player player, int posId) {
@@ -135,12 +133,6 @@ public class DouDiZhuSeat extends AbstractSeatModel implements Cloneable {
         return handCardList;
     }
 
-    public void serialTimeoutCountAdd() {
-        serialTimeoutCount++;
-        if (serialTimeoutCount > RuleConfig.SERIAL_TIMEOUT_OUNT) {
-
-        }
-    }
 
     public void setOutCardTips(List<CardDTO> outCardTips) {
         tips = outCardTips;
@@ -151,8 +143,8 @@ public class DouDiZhuSeat extends AbstractSeatModel implements Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    protected DouDiZhuSeat clone() throws CloneNotSupportedException {
+        return (DouDiZhuSeat) super.clone();
     }
 
     @Override

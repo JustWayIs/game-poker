@@ -852,9 +852,12 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
     }
 
     //===================================================================
-    /**
-     *
-     */
+
+
+    @Override
+    public DouDiZhuRoom cloneData() throws CloneNotSupportedException {
+        return this.clone();
+    }
 
     /**
      * 超时机制
@@ -943,16 +946,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         return gameZone;
     }
 
-    /**
-     * 一次只能有一个线程修改
-     *
-     * @param userId
-     */
-    public void userSerialTimeoutCountAdd(Long userId) {
-        Integer posId = userPosIdMap.get(userId);
-        DouDiZhuSeat seat = posIdSeatMap.get(posId);
-        seat.serialTimeoutCountAdd();
-    }
+
 
     public Integer[] getRedoubleOption() {
         return gameZone.getRedoubleOption();
@@ -963,6 +957,11 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
     }
 
     //=====================================================================================
+
+    @Override
+    public int getTimeoutLimit() {
+        return RuleConfig.SERIAL_TIMEOUT_OUNT;
+    }
 
     @Override
     public void init(IRoomManager roomManager, Long roomId, List list, int roundLimit, int inningLimit) {
@@ -997,9 +996,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
     }
 
 
-    public Long getRoomId() {
-        return roomId;
-    }
+
 
     public int getSeatStatus(Long userId) {
         Integer posId = userPosIdMap.get(userId);
@@ -1008,13 +1005,11 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         return status;
     }
 
-    public int getStep() {
-        return gameZone.getStepCount();
-    }
+
 
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public DouDiZhuRoom clone() throws CloneNotSupportedException {
         DouDiZhuRoom cloneRoom = (DouDiZhuRoom) super.clone();
         cloneRoom.gameZone = (DouDiZhuZone) cloneRoom.gameZone.clone();
         Map<Integer, DouDiZhuSeat> seatMap = new HashMap<>();

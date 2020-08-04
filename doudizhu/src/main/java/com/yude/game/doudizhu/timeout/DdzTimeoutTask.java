@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @Version: 1.0
  * @Declare:
  */
-public class DdzTimeoutTask implements TimeoutTask<DouDiZhuRoom, PushManager> {
+public class DdzTimeoutTask implements TimeoutTask {
     private static Logger log = LoggerFactory.getLogger(DdzTimeoutTask.class);
     private static List<TimeoutRequestGenerator> requestGenerators = new ArrayList<>();
 

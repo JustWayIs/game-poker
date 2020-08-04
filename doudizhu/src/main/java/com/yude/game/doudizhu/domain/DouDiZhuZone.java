@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @Version: 1.0
  * @Declare:
  */
-public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat> implements BaseGameProcess, Cloneable {
+public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat,GameStatusEnum> implements BaseGameProcess, Cloneable {
     public static final Logger log = LoggerFactory.getLogger(DouDiZhuZone.class);
 
     /**
@@ -39,7 +39,6 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat> implements
      */
     private Integer[] holeCards;
     private List<GameStepModel> operationHistoryList;
-    private volatile GameStatusEnum gameStatus;
 
     /**
      * H2 这些应该被视为游戏域的内容还是游戏房间的内容呢
@@ -410,6 +409,7 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat> implements
     }
 
 
+    @Override
     public GameStatusEnum getGameStatus() {
         return gameStatus;
     }
@@ -561,7 +561,7 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat> implements
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    protected DouDiZhuZone clone() throws CloneNotSupportedException {
         DouDiZhuZone cloneZone = (DouDiZhuZone) super.clone();
         int i = 0;
         cloneZone.playerSeats = cloneZone.playerSeats.clone();
