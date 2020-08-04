@@ -109,9 +109,10 @@ public class DdzTableGenerator {
             tailKey = iterator.next().getKey();
         }
 
-        File file = new File("E:\\My-work\\project\\service-frameworks\\game-ddz\\src\\main\\resources\\config\\ddz-table.properties");
+        //生成在target/test-classes目录下
+        File file = new File("resources/config/ddz-table.properties");
         file.delete();
-        FileWriter fileWriter1 = new FileWriter("E:\\My-work\\project\\service-frameworks\\game-ddz\\src\\main\\resources\\config\\ddz-table.properties");
+        FileWriter fileWriter1 = new FileWriter("resources/config/ddz-table.properties");
         for(Map.Entry<String,String> entry : map.entrySet()){
             String key = entry.getKey();
             String value = entry.getValue();
@@ -245,7 +246,7 @@ public class DdzTableGenerator {
     public static List<String> shunZi(int type) {
         List<String> list = new ArrayList<>();
         int cursor = 5;
-        int length = 12;
+        int length = 13;
         //顺子没有 大小王、2
         for (int i = 0; i < length; i++) {
             int[] arry = new int[15];
@@ -273,14 +274,18 @@ public class DdzTableGenerator {
         for (int k = 0; k < arry.length; ++k) {
             str.append(arry[k]);
         }
-        String key = str.toString();
-        StringBuilder strValue = new StringBuilder();
-        strValue.append(type).append("-").append(num*isDouble).append("-").append(initJ + 1);
-        String valueStr = strValue.toString();
-        put(key,valueStr);
+        int sum = num * isDouble;
+        //H2 斗地主牌最多是20张的情况
+        if (sum <= 20) {
+            String key = str.toString();
+            StringBuilder strValue = new StringBuilder();
+            strValue.append(type).append("-").append(num*isDouble).append("-").append(initJ + 1);
+            String valueStr = strValue.toString();
+            put(key,valueStr);
 
-        str.append("-").append(type).append("-").append(num*isDouble).append("-").append(initJ + 1);
-        list.add(new String(str));
+            str.append("-").append(type).append("-").append(num*isDouble).append("-").append(initJ + 1);
+            list.add(new String(str));
+        }
 
         arry[initJ] = 0;
         initJ++;
@@ -291,7 +296,7 @@ public class DdzTableGenerator {
     public static List<String> doubleCardSerial(int type) {
         List<String> list = new ArrayList<>();
         int cursor = 3;
-        int length = 12;
+        int length = 13;
         //连对没有 大小王、2
         for (int i = 0; i < length; i++) {
             int[] arry = new int[15];
