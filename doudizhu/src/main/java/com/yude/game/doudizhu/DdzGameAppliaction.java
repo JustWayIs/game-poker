@@ -28,14 +28,17 @@ import org.springframework.stereotype.Component;
 public class DdzGameAppliaction {
     private static final Logger log = LoggerFactory.getLogger(DdzGameAppliaction.class);
 
+   /* private static final int size = Runtime.getRuntime().availableProcessors() * 2;
+
     @Value("${netty.port}")
     private  int port;
-    @Value("${netty.bossThreadNum:1}")
+
+    @Value("${netty.bossThreadNum:"+size+"}")
     private int bossThreadNum = 1;
 
     //根据运行状态调整到最优。使用@Value意味着必须传值。CPU核心数又是不确定的，该不该把这个值交由properties还有待商榷
     @Value("${netty.workThreadNum}")
-    private int workThreadNum = Runtime.getRuntime().availableProcessors() * 2;
+    private int workThreadNum = Runtime.getRuntime().availableProcessors() * 2;*/
 
     public static void main(String[] args) {
         try {
