@@ -82,13 +82,18 @@
                 <artifactId>jprotobuf-precompile-plugin</artifactId>
                 <version>2.2.2</version>
                 <configuration>
-                    <!--<skipErrorNoDescriptorsdFound>true</skipErrorNoDescriptorsdFound>-->
+
+                    <!--0：存放动态生成的class文件 和proto文件的地方，
+                    1：生成完上面两种文件后，要复制到的目标目录
+                    2：要扫描的包路径
+                    3：是否生成proto文件
+                    4：可以针对依赖的类【有@ProtobufClass注解的类所依赖的类】进行编译，即使依赖类不在filterClassPackage的范围内-->
+                    <outputParentDirectory>./target</outputParentDirectory>
+                    <outputDirectory>./target/classes</outputDirectory>
                     <filterClassPackage>com.yude</filterClassPackage>
                     <generateProtoFile>true</generateProtoFile>
                     <!--这个版本compileDependencies默认是true-->
                     <compileDependencies>true</compileDependencies>
-                    <!--指定输出proto文件的目录，但是删除classes了下面的-->
-                    <!--<outputDirectory>E:\\JProtobuf</outputDirectory>-->
                 </configuration>
                 <executions>
                     <execution>
