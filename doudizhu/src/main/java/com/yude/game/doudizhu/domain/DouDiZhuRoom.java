@@ -425,7 +425,14 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
                 gameOver(outCardPosId);
                 return;
             }
-            noticePlayersAlarm(outCardPosId);
+            /**
+             * 报双，报单，只报警一次
+             */
+            if(seat.isCanAlarm()){
+                noticePlayersAlarm(outCardPosId);
+                seat.setCanAlarm(false);
+            }
+
         }
         nextPlayerOutCardTips(card.getCardType().getCardKey());
     }

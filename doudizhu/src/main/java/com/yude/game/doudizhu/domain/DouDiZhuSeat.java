@@ -47,6 +47,11 @@ public class DouDiZhuSeat extends AbstractSeatModel implements Cloneable {
 
     private List<CardDTO> tips;
 
+    /**
+     * 是否已经报警过，只报警1次
+     */
+    private boolean canAlarm = true;
+
     public DouDiZhuSeat(Player player, int posId) {
         super(player, posId);
         operationCardList = new ArrayList<>();
@@ -73,6 +78,7 @@ public class DouDiZhuSeat extends AbstractSeatModel implements Cloneable {
         status = SeatStatusEnum.DEAL_CARD;
         isAutoOperation = false;
         serialTimeoutCount = 0;
+        canAlarm = true;
     }
 
     public boolean isFinishRedouble() {
@@ -140,6 +146,15 @@ public class DouDiZhuSeat extends AbstractSeatModel implements Cloneable {
 
     public List<CardDTO> getTips() {
         return tips;
+    }
+
+    public boolean isCanAlarm() {
+        return canAlarm;
+    }
+
+    public DouDiZhuSeat setCanAlarm(boolean canAlarm) {
+        this.canAlarm = canAlarm;
+        return this;
     }
 
     @Override

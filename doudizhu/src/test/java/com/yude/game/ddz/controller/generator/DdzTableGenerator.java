@@ -14,7 +14,7 @@ import java.util.*;
  * @Declare:目标：100000000000000-1-1-1 -> {牌的数量的数组:15位(3、4...大王)}-{牌型：单牌、对子、三条...}-{出牌数：三条的牌型出牌数有3种}-{等级：用于比大小}
  */
 public class DdzTableGenerator {
-    public static Map<String,String> map = new LinkedHashMap<>();
+    public static Map<String, String> map = new LinkedHashMap<>();
 
 
     public static void main(String[] args) {
@@ -42,20 +42,20 @@ public class DdzTableGenerator {
         System.out.println("三条 数量:" + three.size() + " " + three);
         list.addAll(three);
 
-        List<String> 三带一 = 三带(CardTypeEnum.三带一.getType(), false,1);
+        List<String> 三带一 = 三带(CardTypeEnum.三带一.getType(), false, 1);
         System.out.println("三带一 数量:" + 三带一.size() + " " + 三带一);
         list.addAll(三带一);
 
-        List<String> 三带一对 = 三带(CardTypeEnum.三带一对.getType(), true,2);
+        List<String> 三带一对 = 三带(CardTypeEnum.三带一对.getType(), true, 2);
         System.out.println("三带一对 数量:" + 三带一对.size() + " " + 三带一对);
         list.addAll(三带一对);
 
         ////type 4 这里的type不能使用CardTypeEnum。因为这里的type有标识牌数量的关系，和生成算法进行了绑定。如果四带的type不是4，会发生错乱。也就是说枚举的type绑定无法修改，解耦合
-        List<String> 四带两对 = 四带(CardTypeEnum.四带两对.getType(), true,4, 2);
+        List<String> 四带两对 = 四带(CardTypeEnum.四带两对.getType(), true, 4, 2);
         System.out.println("四带两对 数量:" + 四带两对.size() + " " + 四带两对);
         list.addAll(四带两对);
 
-        List<String> 四带二 = 四带(CardTypeEnum.四带二.getType(), false,2, 1);
+        List<String> 四带二 = 四带(CardTypeEnum.四带二.getType(), false, 2, 1);
         System.out.println("四带二 数量:" + 四带二.size() + " " + 四带二);
         list.addAll(四带二);
 
@@ -76,7 +76,7 @@ public class DdzTableGenerator {
         list.addAll(飞机不带);
 
         List<String> 飞机带单牌 = plane(CardTypeEnum.飞机带单牌.getType(), 1);
-        System.out.println("飞机带单牌 数量:" + 飞机带单牌.size() + " " + 飞机带单牌);
+        System.out.println("飞机带单牌 数量:" + 飞机带单牌.size() + " ");//+ 飞机带单牌
         list.addAll(飞机带单牌);
 
         List<String> 飞机带对子 = plane(CardTypeEnum.飞机带对子.getType(), 2);
@@ -93,19 +93,18 @@ public class DdzTableGenerator {
         System.out.println("王炸 数量:" + 王炸.size() + " " + 王炸);
         list.addAll(王炸);
 
-        System.out.println("斗地主牌型总数量："+list.size());
-        System.out.println("去重后的数量："+map.size());
-
+        System.out.println("斗地主牌型总数量：" + list.size());
+        System.out.println("去重后的数量：" + map.size());
 
 
         generator();
 
     }
 
-    public static void generator(){
+    public static void generator() {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         String tailKey = null;
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             tailKey = iterator.next().getKey();
         }
 
@@ -113,11 +112,11 @@ public class DdzTableGenerator {
         File file = new File("resources/config/ddz-table.properties");
         file.delete();
         FileWriter fileWriter1 = new FileWriter("resources/config/ddz-table.properties");
-        for(Map.Entry<String,String> entry : map.entrySet()){
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            fileWriter1.append(key+"="+value);
-            if(!key.equals(tailKey)){
+            fileWriter1.append(key + "=" + value);
+            if (!key.equals(tailKey)) {
                 fileWriter1.append("\r\n");
             }
         }
@@ -143,7 +142,7 @@ public class DdzTableGenerator {
             StringBuilder strValue = new StringBuilder();
             strValue.append(type).append("-").append(cardNum).append("-").append(i + 1);
             String valueStr = strValue.toString();
-            put(key,valueStr);
+            put(key, valueStr);
 
 
             str.append("-").append(type).append("-").append(cardNum).append("-").append(i + 1);
@@ -154,13 +153,12 @@ public class DdzTableGenerator {
     }
 
     /**
-     *
      * @param type
      * @param isDouble 是否带一对
      * @param num
      * @return
      */
-    public static List<String> 三带(int type, boolean isDouble,int num) {
+    public static List<String> 三带(int type, boolean isDouble, int num) {
         List<String> list = new ArrayList<>();
         //没有三张鬼
         for (int i = 0; i < 13; i++) {
@@ -168,7 +166,7 @@ public class DdzTableGenerator {
             arry[i] = 3;
 
             int length = 15;
-            if(isDouble){
+            if (isDouble) {
                 length = 13;
             }
             //不能带鬼
@@ -183,7 +181,7 @@ public class DdzTableGenerator {
                     StringBuilder strValue = new StringBuilder();
                     strValue.append(type).append("-").append(3 + num).append("-").append(i + 1);
                     String valueStr = strValue.toString();
-                    put(key,valueStr);
+                    put(key, valueStr);
 
                     str.append("-").append(type).append("-").append(3 + num).append("-").append(i + 1);
                     list.add(new String(str));
@@ -195,13 +193,12 @@ public class DdzTableGenerator {
     }
 
     /**
-     *
      * @param isDuble 是否是对子
      * @param num
      * @param step
      * @return
      */
-    public static List<String> 四带(int type,boolean isDuble, int num, int step) {
+    public static List<String> 四带(int type, boolean isDuble, int num, int step) {
         List<String> list = new ArrayList<>();
         //没有四张鬼
         for (int i = 0; i < 13; i++) {
@@ -227,7 +224,7 @@ public class DdzTableGenerator {
                             StringBuilder strValue = new StringBuilder();
                             strValue.append(type).append("-").append(4 + num).append("-").append(i + 1);
                             String valueStr = strValue.toString();
-                            put(key,valueStr);
+                            put(key, valueStr);
 
                             str.append("-").append(type).append("-").append(4 + num).append("-").append(i + 1);
                             list.add(new String(str));
@@ -254,7 +251,7 @@ public class DdzTableGenerator {
 
             if (cursor < length) {
 
-                serialRecursion(1, arry, type, cursor, cursor, list, i, 0,1);
+                serialRecursion(1, arry, type, cursor, cursor, list, i, 0, 1);
             }
             cursor++;
 
@@ -262,7 +259,7 @@ public class DdzTableGenerator {
         return list;
     }
 
-    public static void serialRecursion(int size, int[] arry, int type, int num, int cursor, List<String> list, int rating, int initJ,int isDouble) {
+    public static void serialRecursion(int size, int[] arry, int type, int num, int cursor, List<String> list, int rating, int initJ, int isDouble) {
         //牌为2
         if (cursor > 12) {
             return;
@@ -279,18 +276,18 @@ public class DdzTableGenerator {
         if (sum <= 20) {
             String key = str.toString();
             StringBuilder strValue = new StringBuilder();
-            strValue.append(type).append("-").append(num*isDouble).append("-").append(initJ + 1);
+            strValue.append(type).append("-").append(num * isDouble).append("-").append(initJ + 1);
             String valueStr = strValue.toString();
-            put(key,valueStr);
+            put(key, valueStr);
 
-            str.append("-").append(type).append("-").append(num*isDouble).append("-").append(initJ + 1);
+            str.append("-").append(type).append("-").append(num * isDouble).append("-").append(initJ + 1);
             list.add(new String(str));
         }
 
         arry[initJ] = 0;
         initJ++;
         cursor++;
-        serialRecursion(size, arry, type, num, cursor, list, rating, initJ,isDouble);
+        serialRecursion(size, arry, type, num, cursor, list, rating, initJ, isDouble);
     }
 
     public static List<String> doubleCardSerial(int type) {
@@ -304,7 +301,7 @@ public class DdzTableGenerator {
 
             if (cursor < length) {
 
-                serialRecursion(2, arry, type, cursor, cursor, list, i, 0,2);
+                serialRecursion(2, arry, type, cursor, cursor, list, i, 0, 2);
             }
             cursor++;
 
@@ -339,9 +336,9 @@ public class DdzTableGenerator {
                     }
                     String key = str.toString();
                     StringBuilder strValue = new StringBuilder();
-                    strValue.append(type).append("-").append(s * 3 + num * cursor).append("-").append(i + 1);;
+                    strValue.append(type).append("-").append(s * 3 + num * cursor).append("-").append(i + 1);
                     String valueStr = strValue.toString();
-                    put(key,valueStr);
+                    put(key, valueStr);
 
                     str.append("-").append(type).append("-").append(s * 3 + num * cursor).append("-").append(i + 1);
                     list.add(new String(str));
@@ -367,9 +364,9 @@ public class DdzTableGenerator {
         length = num == 0 ? num : length;
         length = num == 2 ? 14 - num : length;
         /*for (int i = 0; i < length; i++) {
-            *//**
-             * 其实只要判断当前索引的array的值是否大于0就行了
-             *//*
+         *//**
+         * 其实只要判断当前索引的array的值是否大于0就行了
+         *//*
             int cur = cursor;
             boolean isOut = false;
             for (int n = 0; n < wingNum; n++) {
@@ -388,48 +385,65 @@ public class DdzTableGenerator {
             /**
              * 其实只要判断当前索引的array的值是否大于0就行了
              */
-            if(arry[i] == 0){
+            if (arry[i] == 0) {
                 validList.add(i);
             }
 
         }
-        fillListRecursion(arry,validList,list,wingNum,num,type,wingNum,rating);
+        fillListRecursion(arry, validList, list, wingNum, num, type, wingNum, rating);
     }
 
-    public static List<String> fillListRecursion(int[] array,List<Integer> validList,List<String> list,int count,int num,int type,int wingNum,int rating){
+    public static List<String> fillListRecursion(int[] array, List<Integer> validList, List<String> list, int count, int num, int type, int wingNum, int rating) {
         int cardNum = wingNum * 3 + num * wingNum;
         //H2 这里限制张数的话，可能不止这里要限制
-        if(cardNum > 20){
+        if (cardNum > 20) {
             return list;
         }
 
         int copyCount = count;
-        for(Integer i : validList){
-            array[i] = num;
-            if(count == 1){
-                StringBuilder str = new StringBuilder();
-                for (int k = 0; k < array.length; ++k) {
-                    str.append(array[k]);
+        for (Integer i : validList) {
+            int limitCount = wingNum * num;
+            limitCount = limitCount > 4 ? 4 : limitCount;
+            if (array[i] + num <= limitCount) {
+                if ((array[i] + num == 3) && (((i - 1) > 0 && array[i - 1] == 3) || (i + 1) < 14 && array[i + 1] == 3)) {
+                    continue;
                 }
-                String key = str.toString();
-                StringBuilder strValue = new StringBuilder();
+                if (i < 13 || (i >= 13 && array[i] == 0)) {
+                    array[i] += num;
+                    if (count == 1) {
+                        StringBuilder str = new StringBuilder();
+                        for (int k = 0; k < array.length; ++k) {
+                            str.append(array[k]);
+                        }
+                        String key = str.toString();
+                        StringBuilder strValue = new StringBuilder();
 
-                strValue.append(type).append("-").append(cardNum).append("-").append(rating + 1);
-                String valueStr = strValue.toString();
-                put(key,valueStr);
+                        strValue.append(type).append("-").append(cardNum).append("-").append(rating + 1);
+                        String valueStr = strValue.toString();
+                        put(key, valueStr);
 
-                str.append("-").append(type).append("-").append(wingNum * 3 + num * wingNum).append("-").append(rating + 1);
-                list.add(new String(str));
-            }else{
+                        str.append("-").append(type).append("-").append(wingNum * 3 + num * wingNum).append("-").append(rating + 1);
+                        list.add(new String(str));
+                    } else {
+                        if (array[i] < limitCount) {
 
-                int i1 = validList.indexOf(i);
-                List<Integer> validList2 = new ArrayList<>(validList.subList(i1+1,validList.size()));
-                //int[] copyArray = new int[array.length];
-                //System.arraycopy(array,0,copyArray,0,array.length);
-                fillListRecursion(array,validList2,list,--copyCount,num,type,wingNum,rating);
+                            List<Integer> validList2 = new ArrayList<>(validList);
+                            fillListRecursion(array, validList2, list, --copyCount, num, type, wingNum, rating);
+                        } else {
+                            int i1 = validList.indexOf(i);
+                            List<Integer> validList2 = new ArrayList<>(validList.subList(i1 + 1, validList.size()));
+                            //int[] copyArray = new int[array.length];
+                            //System.arraycopy(array,0,copyArray,0,array.length);
+                            fillListRecursion(array, validList2, list, --copyCount, num, type, wingNum, rating);
+                        }
+
+                    }
+                    array[i] -= num;
+                    copyCount = count;
+                }
+
             }
-            array[i] = 0;
-            copyCount = count;
+
         }
 
         return list;
@@ -450,7 +464,7 @@ public class DdzTableGenerator {
         StringBuilder strValue = new StringBuilder();
         strValue.append(type).append("-").append(2).append("-").append(1);
         String valueStr = strValue.toString();
-        put(key,valueStr);
+        put(key, valueStr);
 
 
         str.append("-").append(type).append("-").append(2).append("-").append(1);
@@ -459,15 +473,15 @@ public class DdzTableGenerator {
         return list;
     }
 
-    public static void put(String key,String value){
+    public static void put(String key, String value) {
         String s = map.get(key);
-        if(s != null){
-           // System.out.println("-----key : "+key);
-            if(!s.equals(value)){
-                System.out.println("-------value:"+value);
+        if (s != null) {
+            // System.out.println("-----key : "+key);
+            if (!s.equals(value)) {
+                System.out.println("key: " + key + "    before value:" + s + "-------value:" + value);
             }
         }
 
-        map.put(key,value);
+        map.put(key, value);
     }
 }

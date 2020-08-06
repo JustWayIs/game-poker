@@ -4,12 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>game-poker</artifactId>
-        <groupId>game.poker</groupId>
+        <groupId>game</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>game.poker</groupId>
     <artifactId>common</artifactId>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>

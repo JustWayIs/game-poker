@@ -1,10 +1,14 @@
 package com.yude.game.ddz.controller;
 
 import com.yude.game.doudizhu.domain.card.CardType;
+import com.yude.game.doudizhu.domain.card.CardTypeInfo;
 import com.yude.game.doudizhu.domain.card.PokerProp;
+import com.yude.game.doudizhu.util.DdzTable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author: HH
@@ -15,7 +19,7 @@ import java.util.Arrays;
 
 public class CardTypeTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         /***
          * 上一版
          */
@@ -65,19 +69,25 @@ public class CardTypeTest {
         //testArray(countSize,sum,四带二);*/
 
 
-        testCompare();
+       /* testCompare();
 
-        /**
+        *//**
          * 新版
-         */
+         *//*
 
         testVariableCard(countSize,sum,四带二);
-        /*CardType judge = CardType.四带一对.judge(feiji);
-        System.out.println(judge);*/
+        *//*CardType judge = CardType.四带一对.judge(feiji);
+        System.out.println(judge);*//*
 
         Integer[] cards = {42, 44, 20, 31, 32, 13, 18, 14, 6, 52, 37, 22, 53, 33, 21, 3, 40};
         CardType.sort(cards);
-        System.out.println(Arrays.toString(cards));
+        System.out.println(Arrays.toString(cards));*/
+        DdzTable.init();
+        Integer[] cards = {47, 46, 44, 42, 41,40, 22, 21};
+        List<PokerProp.CardEunm> cardEunms = PokerProp.convertCardForNum(cards);
+        System.out.println(cardEunms);
+        CardTypeInfo cardTypeInfo = DdzTable.judgeCardType(cards);
+        System.out.println(cardTypeInfo);
     }
 
     /*public static void testList(int countSize,long sum,List<Integer> cards){
