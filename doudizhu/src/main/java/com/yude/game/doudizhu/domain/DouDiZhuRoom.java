@@ -1008,10 +1008,9 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
 
     @Override
     public void destroy() {
-        int gameRound = gameZone.getRound();
         int gameInning = gameZone.getInning();
         //重开后，是一个新的GameZone不会影响。赛事没有重开，都不叫分的情况下，第一个玩家时地主
-        boolean isFinish = roundLimit >= gameRound && inningLimit >= gameInning;
+        boolean isFinish = gameInning >= inningLimit;
         if (isFinish) {
             log.info("房间销毁： roomId={} ", roomId);
             //房间销毁
