@@ -221,7 +221,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         long lastOperationTime = gameZone.getLastOperationTime();
         boolean isFinish = farmersRedouble(posId, landlordPosId, douDiZhuSeat, redoubleNum);
         long nowTime = System.currentTimeMillis();
-        long remainingTime = TimeUnit.MILLISECONDS.convert(getGameStatus().getTimeoutTime(), TimeUnit.SECONDS) + lastOperationTime - nowTime;
+        long remainingTime = TimeUnit.MILLISECONDS.convert(getGameStatus().getTimeoutTime() + RuleConfig.ANIMATION_LANDLORD_OWNERSHIP_DELAYED, TimeUnit.SECONDS) + lastOperationTime  - nowTime;
 
         if (!isFinish) {
             //存在着时间差，有个临界点
