@@ -1,0 +1,13 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "LoginResponse$$ByJProtobuf";
+message LoginResponse {  
+ CommonResponse commonResponse=1;
+ string sessionId=2;
+ sint32 status=3;
+ sint64 roomId=4;
+}
+message CommonResponse {  
+ string msg=1;
+ sint32 code=2;
+}

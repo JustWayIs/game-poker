@@ -1,0 +1,7 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "CurrentOperatorResponse$$ByJProtobuf";
+message CurrentOperatorResponse {  
+repeated sint32 operatorList=1;
+ sint32 seconds=2;
+}

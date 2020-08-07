@@ -1,0 +1,16 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.request;
+option java_outer_classname = "MatchRequest$$ByJProtobuf";
+message MatchRequest {  
+ sint64 userId=1;
+ sint64 channelUserId=2;
+ MessageType messageType=3;
+}
+enum MessageType {  
+LOGIN=0;
+HEARTBEAT=1;
+SERVICE=2;
+TIMEOUT=3;
+PUSH_MESSAGE=4;
+}
+ 

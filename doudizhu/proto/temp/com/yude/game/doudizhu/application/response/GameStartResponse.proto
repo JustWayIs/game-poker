@@ -1,0 +1,11 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "GameStartResponse$$ByJProtobuf";
+message GameStartResponse {  
+ sint32 step=1;
+ sint64 roomId=2;
+ sint32 zoneId=3;
+ sint32 posId=4;
+ sint32 gameStatus=5;
+repeated sint32 cards=6;
+}

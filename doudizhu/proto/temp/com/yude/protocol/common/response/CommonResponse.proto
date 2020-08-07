@@ -1,0 +1,7 @@
+syntax="proto3";
+package com.yude.protocol.common.response;
+option java_outer_classname = "CommonResponse$$ByJProtobuf";
+message CommonResponse {  
+ string msg=1;
+ sint32 code=2;
+}

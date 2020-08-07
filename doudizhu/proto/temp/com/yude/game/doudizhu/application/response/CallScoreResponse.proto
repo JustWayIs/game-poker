@@ -1,0 +1,8 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "CallScoreResponse$$ByJProtobuf";
+message CallScoreResponse {  
+ sint32 step=1;
+ sint32 posId=2;
+ sint32 score=3;
+}

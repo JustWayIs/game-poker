@@ -1,0 +1,7 @@
+syntax="proto3";
+package com.baidu.bjf.remoting.protobuf;
+option java_outer_classname = "Any$$ByJProtobuf";
+message Any {  
+ string codecClass=1;
+ bytes byteArray=2;
+}

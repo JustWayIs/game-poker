@@ -1,0 +1,9 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response.dto;
+option java_outer_classname = "PlayerDTO$$ByJProtobuf";
+message PlayerDTO {  
+ sint64 userId=1;
+ string name=2;
+ string headUrl=3;
+ sint64 score=4;
+}

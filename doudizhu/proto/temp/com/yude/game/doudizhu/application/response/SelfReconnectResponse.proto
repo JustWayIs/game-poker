@@ -1,0 +1,50 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "SelfReconnectResponse$$ByJProtobuf";
+message SelfReconnectResponse {  
+ GameZoneInfoDTO gameZoneInfoDTO=1;
+repeated SeatInfoDTO seatInfoDTOList=2;
+}
+message SeatInfoDTO {  
+ sint32 posId=1;
+ PlayerDTO playerDTO=2;
+repeated sint32 handCards=3;
+ sint32 callScore=4;
+ sint32 redouble=5;
+repeated CardDTO outCardTips=6;
+}
+message CardDTO {  
+repeated sint32 cards=1;
+ sint32 cardType=2;
+}
+message PlayerDTO {  
+ sint64 userId=1;
+ string name=2;
+ string headUrl=3;
+ sint64 score=4;
+}
+message GameZoneInfoDTO {  
+ sint64 roomId=1;
+ sint32 zoneId=2;
+ sint32 gameStatus=3;
+repeated sint32 currentOperatorPosId=4;
+ CardDTO lastOutCard=5;
+ sint32 lastOutCardPosId=6;
+ sint32 lastOperationPosId=7;
+ sint32 landlordPosId=8;
+ sint32 landlordScore=9;
+repeated sint32 holeCards=10;
+repeated sint32 callScoreOptions=11;
+repeated sint32 redoubleNumOptions=12;
+ sint64 remaningTime=13;
+ RedoubleDetailResponse redoubleDetail=14;
+}
+message RedoubleDetailResponse {  
+ sint32 baseScore=1;
+ sint32 bombCount=2;
+ sint32 springTimeCount=3;
+ sint32 commonRedoubleNum=4;
+ sint32 landlordRedoubleNum=5;
+ sint32 farmerRedoubleNum=6;
+ sint32 resultRedoubleNum=7;
+}

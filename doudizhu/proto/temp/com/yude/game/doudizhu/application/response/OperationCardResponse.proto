@@ -1,0 +1,13 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "OperationCardResponse$$ByJProtobuf";
+message OperationCardResponse {  
+ sint32 step=1;
+ sint32 posId=2;
+ CardDTO cards=3;
+ sint32 remainingCardSize=4;
+}
+message CardDTO {  
+repeated sint32 cards=1;
+ sint32 cardType=2;
+}

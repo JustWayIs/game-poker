@@ -1,0 +1,7 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "SpringTimeResponse$$ByJProtobuf";
+message SpringTimeResponse {  
+ bool springTime=1;
+ sint32 who=2;
+}

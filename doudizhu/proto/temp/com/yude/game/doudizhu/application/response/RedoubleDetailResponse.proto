@@ -1,0 +1,12 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "RedoubleDetailResponse$$ByJProtobuf";
+message RedoubleDetailResponse {  
+ sint32 baseScore=1;
+ sint32 bombCount=2;
+ sint32 springTimeCount=3;
+ sint32 commonRedoubleNum=4;
+ sint32 landlordRedoubleNum=5;
+ sint32 farmerRedoubleNum=6;
+ sint32 resultRedoubleNum=7;
+}

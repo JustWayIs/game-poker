@@ -1,0 +1,6 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "RedoubleOptionResponse$$ByJProtobuf";
+message RedoubleOptionResponse {  
+repeated sint32 redoubleOption=1;
+}

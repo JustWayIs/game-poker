@@ -139,7 +139,7 @@
                     2：要扫描的包路径
                     3：是否生成proto文件
                     4：可以针对依赖的类【有@ProtobufClass注解的类所依赖的类】进行编译，即使依赖类不在filterClassPackage的范围内-->
-                    <outputParentDirectory>./target</outputParentDirectory>
+                    <outputParentDirectory>./proto</outputParentDirectory>
                     <outputDirectory>./target/classes</outputDirectory>
                     <filterClassPackage>com.yude</filterClassPackage>
                     <generateProtoFile>true</generateProtoFile>

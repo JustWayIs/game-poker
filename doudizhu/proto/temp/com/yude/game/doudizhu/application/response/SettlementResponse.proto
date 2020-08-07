@@ -1,0 +1,14 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response;
+option java_outer_classname = "SettlementResponse$$ByJProtobuf";
+message SettlementResponse {  
+repeated SettlementDTO settlementDTOList=1;
+}
+message SettlementDTO {  
+ sint32 step=1;
+ sint32 posId=2;
+ sint32 baseScore=3;
+ sint32 resultRedoubleNum=4;
+ sint32 changeScore=5;
+repeated sint32 handCards=6;
+}

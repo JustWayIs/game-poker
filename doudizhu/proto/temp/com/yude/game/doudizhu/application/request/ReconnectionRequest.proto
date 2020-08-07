@@ -1,0 +1,17 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.request;
+option java_outer_classname = "ReconnectionRequest$$ByJProtobuf";
+message ReconnectionRequest {  
+ sint64 userId=1;
+ sint64 roomId=2;
+ sint64 channelUserId=3;
+ MessageType messageType=4;
+}
+enum MessageType {  
+LOGIN=0;
+HEARTBEAT=1;
+SERVICE=2;
+TIMEOUT=3;
+PUSH_MESSAGE=4;
+}
+ 

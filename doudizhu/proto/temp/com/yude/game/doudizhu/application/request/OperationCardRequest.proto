@@ -1,0 +1,19 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.request;
+option java_outer_classname = "OperationCardRequest$$ByJProtobuf";
+message OperationCardRequest {  
+ sint64 roomId=1;
+ sint32 zoneId=2;
+repeated sint32 cards=3;
+ sint32 posId=4;
+ sint64 channelUserId=5;
+ MessageType messageType=6;
+}
+enum MessageType {  
+LOGIN=0;
+HEARTBEAT=1;
+SERVICE=2;
+TIMEOUT=3;
+PUSH_MESSAGE=4;
+}
+ 

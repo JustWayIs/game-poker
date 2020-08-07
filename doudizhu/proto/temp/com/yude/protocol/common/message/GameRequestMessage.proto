@@ -1,0 +1,17 @@
+syntax="proto3";
+package com.yude.protocol.common.message;
+option java_outer_classname = "GameRequestMessage$$ByJProtobuf";
+message GameRequestMessage {  
+ GameRequestMessageHead head=1;
+ Any object=2;
+}
+message GameRequestMessageHead {  
+ sint32 cmd=1;
+ sint32 type=2;
+ string sessionId=3;
+ sint64 roomId=4;
+}
+message Any {  
+ string codecClass=1;
+ bytes byteArray=2;
+}

@@ -1,0 +1,7 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response.dto;
+option java_outer_classname = "CardDTO$$ByJProtobuf";
+message CardDTO {  
+repeated sint32 cards=1;
+ sint32 cardType=2;
+}

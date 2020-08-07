@@ -1,0 +1,15 @@
+syntax="proto3";
+package com.yude.protocol.common.message;
+option java_outer_classname = "GameResponseMessage$$ByJProtobuf";
+message GameResponseMessage {  
+ GameResponseMessageHead head=1;
+ Any any=2;
+}
+message Any {  
+ string codecClass=1;
+ bytes byteArray=2;
+}
+message GameResponseMessageHead {  
+ string sessionId=1;
+ sint32 cmd=2;
+}

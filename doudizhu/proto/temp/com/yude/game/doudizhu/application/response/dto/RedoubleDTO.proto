@@ -1,0 +1,8 @@
+syntax="proto3";
+package com.yude.game.doudizhu.application.response.dto;
+option java_outer_classname = "RedoubleDTO$$ByJProtobuf";
+message RedoubleDTO {  
+ sint32 step=1;
+ sint32 posId=2;
+ sint32 redoubleNum=3;
+}

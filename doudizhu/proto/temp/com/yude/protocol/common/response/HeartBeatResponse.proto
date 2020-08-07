@@ -1,0 +1,6 @@
+syntax="proto3";
+package com.yude.protocol.common.response;
+option java_outer_classname = "HeartBeatResponse$$ByJProtobuf";
+message HeartBeatResponse {  
+ sint32 time=1;
+}
