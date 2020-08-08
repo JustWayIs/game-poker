@@ -3,6 +3,7 @@ package com.yude.game.doudizhu.domain.card;
 
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author: HH
@@ -11,7 +12,7 @@ import java.util.Arrays;
  * @Declare:
  */
 public class Card {
-    private  Integer[] cards;
+    private List<Integer> cards;
     /**
      * 传给客户端的时候，需要转一下
      */
@@ -20,16 +21,16 @@ public class Card {
     public Card() {
     }
 
-    public Card(Integer[] cards, CardTypeInfo cardType) {
+    public Card(List<Integer> cards, CardTypeInfo cardType) {
         this.cards = cards;
         this.cardType = cardType;
     }
 
-    public Integer[] getCards() {
+    public List<Integer> getCards() {
         return cards;
     }
 
-    public Card setCards(Integer[] cards) {
+    public Card setCards(List<Integer> cards) {
         this.cards = cards;
         return this;
     }
@@ -46,7 +47,7 @@ public class Card {
     @Override
     public String toString() {
         return "Card{" +
-                "cards=" + Arrays.toString(cards) +
+                "cards=" + cards +
                 ", cardType=" + cardType +
                 '}';
     }

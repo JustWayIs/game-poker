@@ -86,7 +86,7 @@ public class CardTypeTest {
         Integer[] cards = {47, 46, 44, 42, 41,40, 22, 21};
         List<PokerProp.CardEunm> cardEunms = PokerProp.convertCardForNum(cards);
         System.out.println(cardEunms);
-        CardTypeInfo cardTypeInfo = DdzTable.judgeCardType(cards);
+        CardTypeInfo cardTypeInfo = DdzTable.judgeCardType(Arrays.asList(cards));
         System.out.println(cardTypeInfo);
     }
 

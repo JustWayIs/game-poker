@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: HH
@@ -335,7 +336,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         }
 
 
-        outCard(douDiZhuSeat, cardList.toArray(new Integer[cardList.size()]));
+        outCard(douDiZhuSeat, cardList);
         log.info("玩家剩余牌：roomId={} zoneId={} handCards={}", roomId, gameZone.getZoneId(), douDiZhuSeat.getHandCardList());
     }
 
@@ -362,13 +363,13 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         nextPlayerOutCardTips(lastOutCard.getCardType().getCardKey());
     }
 
-    private void outCard(DouDiZhuSeat seat, Integer[] cards) {
+    private void outCard(DouDiZhuSeat seat, List<Integer> cards) {
         Card lastOutCard = gameZone.getLastOutCard();
         CardTypeInfo cardType = DdzTable.judgeCardType(cards);
         log.debug("判断牌型： roomId={} cardType={}", roomId, cardType);
         if (cardType == null) {
-            log.error("没有匹配的牌型：roomId={} userId={} posId={} cards={}", roomId, seat.getUserId(), seat.getPosId(), Arrays.toString(cards));
-            throw new SystemException("牌型不存在：" + Arrays.toString(cards));
+            log.error("没有匹配的牌型：roomId={} userId={} posId={} cards={}", roomId, seat.getUserId(), seat.getPosId(), cards);
+            throw new SystemException("牌型不存在：" + cards);
         }
 
         if (lastOutCard == null) {
@@ -396,7 +397,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
 
     private void buildAndNoticeOperationCard(DouDiZhuSeat seat, Card card) {
         int outCardPosId = seat.getPosId();
-        List<Integer> outCardList = Arrays.asList(card.getCards());
+        List<Integer> outCardList = card.getCards();
         List<Integer> handCardList = seat.getHandCardList();
         for (Integer cardIndex : card.getCards()) {
             handCardList.remove(cardIndex);
@@ -450,6 +451,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
             List<CardDTO> cardsGreaterThan = DdzTable.getCardsGreaterThan(key);
             if (cardsGreaterThan.size() > 0) {
                 List<Integer> handCardList = seat.getHandCardList();
+                int[] cardNumArray = DdzTable.cardConvertCardNumArray(handCardList);
                 log.debug("roomId={} handCardIndexs = {}", roomId, handCardList);
                 List<Integer> handCardValues = DdzTable.cardIndexConvertcardValue(handCardList);
                 log.debug("roomId={} handCardValues = {}", roomId, handCardValues);
@@ -606,7 +608,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
 
         GameZoneInfoDTO gameZoneInfoDTO = new GameZoneInfoDTO();
         Card lastOutCard = gameZone.getLastOutCard();
-        List<Integer> lastOutCards = lastOutCard == null ? null : Arrays.asList(lastOutCard.getCards());
+        List<Integer> lastOutCards = lastOutCard == null ? null : lastOutCard.getCards();
         List<Integer> operatorList;
         if (GameStatusEnum.FARMERS_REDOUBLE.equals(gameZone.getGameStatus())) {
             operatorList = new ArrayList<>();
@@ -1006,8 +1008,10 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         destroy();
     }
 
+    public static AtomicInteger roomCount = new AtomicInteger(0);
     @Override
     public void destroy() {
+        log.debug("完成第 {} 局游戏",roomCount);
         int gameInning = gameZone.getInning();
         //重开后，是一个新的GameZone不会影响。赛事没有重开，都不叫分的情况下，第一个玩家时地主
         boolean isFinish = gameInning >= inningLimit;

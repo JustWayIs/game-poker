@@ -16,6 +16,8 @@ import com.yude.game.doudizhu.application.response.dto.PlayerDTO;
 import com.yude.game.doudizhu.application.response.dto.SeatInfoDTO;
 
 
+import com.yude.game.doudizhu.timeout.DdzTimeoutTask;
+import com.yude.game.doudizhu.timeout.DdzTimeoutTaskPool;
 import com.yude.protocol.common.constant.StatusCodeEnum;
 
 import org.slf4j.Logger;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 
@@ -65,8 +68,8 @@ public class RoomManager<T extends
     /**
      * uerId
      */
-    private ConcurrentLinkedQueue<Long> matchQueue = new ConcurrentLinkedQueue<>();
-    //private BlockingQueue<Long> matchQueue = new LinkedBlockingQueue<>();
+    //private ConcurrentLinkedQueue<Long> matchQueue = new ConcurrentLinkedQueue<>();
+    private BlockingQueue<Long> matchQueue = new LinkedBlockingQueue<>(10000);
 
     private static final short matchQueueSize = 10000;
 
@@ -138,21 +141,21 @@ public class RoomManager<T extends
             throw new SystemException("尝试入座异常");
         }*/
 
-        boolean offer = matchQueue.offer(userId);
+        /*boolean offer = matchQueue.offer(userId);
         if (!offer) {
             log.warn("加入匹配队列失败： userId={}", userId);
             throw new BizException(StatusCodeEnum.MATCH_FAIL);
-        }
-        /*try {
+        }*/
+        try {
             matchQueue.put(userId);
         } catch (InterruptedException e) {
-            log.error("把用于加入匹配队列失败： userId={} ",userId,e);
+            log.error("加入匹配队列失败： userId={} ",userId,e);
             throw new SystemException(StatusCodeEnum.MATCH_FAIL);
-        }*/
+        }
         //这里不一定准，可能处于并发状态
-        log.info("匹配队列中的人数：{}", matchQueue.size());
+        log.error("匹配队列中的人数：{}", matchCount.incrementAndGet());
     }
-
+    public static AtomicInteger matchCount = new AtomicInteger(0);
 
     long cur;
     List<Long> costTime = new ArrayList<>();
@@ -269,6 +272,7 @@ public class RoomManager<T extends
         createMatchThreadPool();
         createRoomThreadPool();
         executeMatchThread(matchThreadPool);
+        DdzTimeoutTaskPool.getInstance().init();
     }
 
     public ExecutorService createMatchThreadPool() {
@@ -303,27 +307,32 @@ public class RoomManager<T extends
 
             //允许关闭这个线程,前提：提供重启机制
             while (!Thread.currentThread().isInterrupted()) {
-
-                if (matchQueue.size() == 0) {
+                Long userId = null;
+                /*if (matchQueue.size() == 0) {
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException e) {
                         log.error("匹配线程休眠异常：", e);
                     }
                 }
-                Long userId = matchQueue.poll();
+                userId = matchQueue.poll();
+                //匹配队为空的时候，由于是非阻塞队列，这里会为null
+                if (userId == null) {
+                    continue;
+                }
+                */
 
                 /**
                  * 不能直接在这里用阻塞队列，因为有尝试入座机制，虽然队列里面没有玩家，但是实际上一局有玩家已经入座了（临时座位）
                  * 在尝试入座成功后，调用了房间创建任务，现在可以用阻塞队列了
                  */
-                //Long userId = null;
-                /*try {
+
+                try {
                     userId = matchQueue.take();
                 } catch (InterruptedException e) {
                     log.error("从队列中获取用户ID失败 ： userId={}",e);
-                }*/
-                //匹配队为空的时候，由于是非阻塞队列，这里会为null
+                }
+                //避免上面出现异常userId没有值
                 if (userId == null) {
                     continue;
                 }
@@ -359,6 +368,7 @@ public class RoomManager<T extends
 
     }
 
+    public static AtomicInteger roomCount = new AtomicInteger(0);
     class RoomCreateAndGameStartTask implements Runnable {
         private AtomicSeatDown atomicSeatDown;
 
@@ -372,6 +382,7 @@ public class RoomManager<T extends
 
             try {
                 createRoom(atomicSeatDown);
+                log.debug("创建第 {} 个房间",roomCount.incrementAndGet());
             } catch (Exception e) {
                 log.error("创建房间失败：", e);
 

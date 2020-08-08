@@ -31,11 +31,11 @@ public class DdzTable {
      * <p>
      * 稳定后改为用HashMap,如果要保证提示牌的有序性
      */
-    private static final Map<String, CardTypeInfo> cardRatingMap = new HashMap<>(2 << 14);
+    private static final Map<String, CardTypeInfo> cardRatingMap = new HashMap<>(2 << 15);
     /**
      * 重写了CardTypeInfo的equals方法和hashcode方法，只比较 类型和数量
      */
-    private static final Map<CardTypeInfo, List<String>> ratingCardMap = new HashMap<>(2 << 14);
+    private static final Map<CardTypeInfo, List<String>> ratingCardMap = new HashMap<>(2 << 8);
 
     public static List<CardDTO> bombList = new ArrayList<>();
 
@@ -81,7 +81,14 @@ public class DdzTable {
         return temmpRatingCardMap;
     }
 
-    public static CardTypeInfo judgeCardType(Integer[] cards) {
+    /*public static CardTypeInfo judgeCardType(Integer[] cards) {
+        String key = cardConvertCardKey(cards);
+        log.debug("cards={} key = {}", cards, key);
+        CardTypeInfo cardTypeInfo = cardRatingMap.get(key);
+        return cardTypeInfo;
+    }*/
+
+    public static CardTypeInfo judgeCardType(List<Integer> cards) {
         String key = cardConvertCardKey(cards);
         log.debug("cards={} key = {}", cards, key);
         CardTypeInfo cardTypeInfo = cardRatingMap.get(key);
@@ -94,8 +101,7 @@ public class DdzTable {
         return outCardTypeInfo.compareValue(beforeCardTypeInfo);
     }
 
-
-    private static String cardConvertCardKey(Integer[] cardIndexs) {
+    /*private static String cardConvertCardKey(Integer[] cardIndexs) {
         List<PokerProp.CardEunm> cardEunms = PokerProp.convertCardForNum(cardIndexs);
         StringBuilder stringBuilder = new StringBuilder();
         int[] cards = new int[15];
@@ -114,31 +120,42 @@ public class DdzTable {
             stringBuilder.append(cards[i]);
         }
         return stringBuilder.toString();
+    }*/
+
+    public static int[] cardConvertCardNumArray(List<Integer> cardIndexs){
+        List<PokerProp.CardEunm> cardEunms = PokerProp.convertCardForNum(cardIndexs);
+        int[] cards = new int[15];
+        for (PokerProp.CardEunm cardEunm : cardEunms) {
+            if (cardEunm.equals(PokerProp.CardEunm.小王)) {
+                cards[13] = 1;
+            } else if (cardEunm.equals(PokerProp.CardEunm.大王)) {
+                cards[14] = 1;
+            } else {
+                int value = cardEunm.ordinal() / 4;
+                cards[value]++;
+            }
+
+        }
+        return cards;
     }
 
     public static String cardConvertCardKey(List<Integer> cardIndexs) {
-        List<PokerProp.CardEunm> cardEunms = PokerProp.convertCardForNum(cardIndexs);
         StringBuilder stringBuilder = new StringBuilder();
-        int[] cards = new int[15];
-        for (PokerProp.CardEunm cardEunm : cardEunms) {
-            int value = cardEunm.ordinal() / 4;
-            cards[value]++;
-        }
+        int[] cards = cardConvertCardNumArray(cardIndexs);
+
         for (int i = 0; i < cards.length; ++i) {
             stringBuilder.append(cards[i]);
         }
         return stringBuilder.toString();
     }
 
-    public static List<CardDTO> getCardsGreaterThan(Integer[] targetCardIndexs) {
+    public static List<CardDTO> getCardsGreaterThan(List<Integer> targetCardIndexs) {
         String targetCardKey = cardConvertCardKey(targetCardIndexs);
         List<CardDTO> cardsGreaterThan = getCardsGreaterThan(targetCardKey);
         return cardsGreaterThan;
     }
 
     public static List<CardDTO> getCardsGreaterThan(String targetCardKey) {
-
-
         CardTypeInfo targetCardInfo = cardRatingMap.get(targetCardKey);
 
         List<CardDTO> needCardList = new ArrayList<>();

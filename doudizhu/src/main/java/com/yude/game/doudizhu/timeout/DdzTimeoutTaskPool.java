@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -29,6 +30,8 @@ public enum DdzTimeoutTaskPool implements TimeoutTaskPool {
     private TimeUnit unit = TimeUnit.SECONDS;
     //无界阻塞队列
     private BlockingQueue<Runnable> workQueue = new DelayQueue();
+
+    private static ConcurrentLinkedQueue<TimeoutTask> linkedQueue = new ConcurrentLinkedQueue();
     private ThreadFactory threadFactory = (runnable) ->{
         Thread thread = new Thread(runnable);
         //守护线程 和 非守护线程，对开发人员而言，最大的区别在于线程结束时，守护线程不保证finally{}块的执行
@@ -83,8 +86,37 @@ public enum DdzTimeoutTaskPool implements TimeoutTaskPool {
 
     @Override
     public void addTask(TimeoutTask timeOutTask) {
-        executorService.execute(timeOutTask);
-        log.info("添加超时任务：{}  \n 队列任务:{}",timeOutTask,workQueue);
+        linkedQueue.offer(timeOutTask);
+        //executorService.execute(timeOutTask);
+        //log.info("添加超时任务：{}  \n 队列任务:{}",timeOutTask,workQueue);
+    }
+
+    public void init(){
+        //只执行一次
+
+        Thread thread = new Thread(() ->execute());
+        thread.setDaemon(true);
+        thread.setName("Thread-task-add");
+        thread.start();
+    }
+
+    public void execute(){
+        while(!Thread.currentThread().isInterrupted()){
+            TimeoutTask timeOutTask = linkedQueue.poll();
+            if(timeOutTask != null){
+                executorService.execute(timeOutTask);
+                continue;
+            }
+            try {
+                if(uselessTaskMap.isEmpty()){
+                    Thread.sleep(100);
+                }else{
+                    Thread.sleep(1);
+                }
+            } catch (InterruptedException e) {
+                log.error("超时任务线程休眠异常",e);
+            }
+        }
     }
 
 }

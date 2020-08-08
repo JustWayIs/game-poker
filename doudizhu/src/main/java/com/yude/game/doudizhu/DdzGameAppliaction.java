@@ -1,6 +1,9 @@
 package com.yude.game.doudizhu;
 
 
+import cn.hutool.core.util.ClassUtil;
+import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import com.yude.game.communication.tcp.server.CommonTCPServer;
 import com.yude.game.doudizhu.domain.DouDiZhuRoom;
 import com.yude.game.doudizhu.domain.manager.RoomManager;
@@ -8,10 +11,14 @@ import com.yude.game.doudizhu.util.DdzTable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: HH
@@ -26,7 +33,6 @@ import org.springframework.stereotype.Component;
 @PropertySource("classpath:config/core.properties")
 public class DdzGameAppliaction {
     private static final Logger log = LoggerFactory.getLogger(DdzGameAppliaction.class);
-
    /* private static final int size = Runtime.getRuntime().availableProcessors() * 2;
 
     @Value("${netty.port}")
@@ -53,10 +59,19 @@ public class DdzGameAppliaction {
             roomManager.initRoomType(DouDiZhuRoom.class);
 
             DdzTable.init();
+            jprotobufClassInit();
 
         } catch (Exception e) {
            log.error("斗地主游戏服启动失败",e);
            System.exit(1);
+        }
+    }
+
+    public static void jprotobufClassInit(){
+        Set<Class<?>> classes = new HashSet<>();
+        classes.addAll(ClassUtil.scanPackageByAnnotation("com.yude", ProtobufClass.class));
+        for (Class c : classes) {
+            ProtobufProxy.create(c);
         }
     }
 }
