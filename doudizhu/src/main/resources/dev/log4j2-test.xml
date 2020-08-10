@@ -21,11 +21,11 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
         </File>
         <!--SMTP :邮件发送日志-->
-        <SMTP name="Mail" subject="****SaaS系统正式版异常信息" to="message@message.info" from="message@lengjing.info" smtpUsername="message@message.info" smtpPassword="LENG****1234" smtpHost="mail.lengjing.info" smtpDebug="false" smtpPort="25" bufferSize="10">
+        <!--<SMTP name="Mail" subject="****SaaS系统正式版异常信息" to="message@message.info" from="message@lengjing.info" smtpUsername="message@message.info" smtpPassword="LENG****1234" smtpHost="mail.lengjing.info" smtpDebug="false" smtpPort="25" bufferSize="10">
             <PatternLayout pattern="[%-5p]:%d{YYYY-MM-dd HH:mm:ss} [%t] %c{1}:%L - %msg%n" />
-        </SMTP>
+        </SMTP>-->
 
-        <RollingFile name="RollingFileDebug" fileName="${logFilePath}/logs/debug.log"
+        <RollingRandomAccessFile  name="RollingFileDebug" fileName="${logFilePath}/logs/debug.log"
                      filePattern="${logFilePath}/logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
             <!--ThresholdFilter :日志输出过滤-->
             <!--level="debug" :日志级别,onMatch="ACCEPT" :级别在debug之上则接受,onMismatch="DENY" :级别在info之下则拒绝-->
@@ -40,10 +40,10 @@
             </Policies>
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
             <DefaultRolloverStrategy max="20"/>
-        </RollingFile>
+        </RollingRandomAccessFile >
 
         <!-- ${sys:user.home} :项目路径 -->
-        <RollingFile name="RollingFileInfo" fileName="${logFilePath}/logs/info.log"
+        <RollingRandomAccessFile  name="RollingFileInfo" fileName="${logFilePath}/logs/info.log"
                      filePattern="${logFilePath}/logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
             <!--ThresholdFilter :日志输出过滤-->
             <!--level="info" :日志级别,onMatch="ACCEPT" :级别在info之上则接受,onMismatch="DENY" :级别在info之下则拒绝-->
@@ -58,9 +58,9 @@
             </Policies>
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
             <DefaultRolloverStrategy max="20"/>
-        </RollingFile>
+        </RollingRandomAccessFile >
 
-        <RollingFile name="RollingFileWarn" fileName="${logFilePath}/logs/warn.log"
+        <RollingRandomAccessFile  name="RollingFileWarn" fileName="${logFilePath}/logs/warn.log"
                      filePattern="${logFilePath}/logs/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
             <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
@@ -68,8 +68,8 @@
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
-        </RollingFile>
-        <RollingFile name="RollingFileError" fileName="${logFilePath}/logs/error.log"
+        </RollingRandomAccessFile >
+        <RollingRandomAccessFile  name="RollingFileError" fileName="${logFilePath}/logs/error.log"
                      filePattern="${logFilePath}/logs/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
             <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
@@ -77,7 +77,7 @@
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
-        </RollingFile>
+        </RollingRandomAccessFile >
     </appenders>
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>
@@ -87,7 +87,7 @@
         <logger name="org.mybatis" level="INFO"></logger>
         <!-- Root节点用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出 -->
         <root level="all">
-            <AppenderRef  ref="Console"/>
+            <!--<AppenderRef  ref="Console"/>-->
             <!--<appender-ref ref="RollingFileDebug"/>-->
             <AppenderRef  ref="RollingFileInfo"/>
             <AppenderRef  ref="RollingFileWarn"/>

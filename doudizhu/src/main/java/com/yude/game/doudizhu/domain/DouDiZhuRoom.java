@@ -451,7 +451,6 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
             List<CardDTO> cardsGreaterThan = DdzTable.getCardsGreaterThan(key);
             if (cardsGreaterThan.size() > 0) {
                 List<Integer> handCardList = seat.getHandCardList();
-                int[] cardNumArray = DdzTable.cardConvertCardNumArray(handCardList);
                 log.debug("roomId={} handCardIndexs = {}", roomId, handCardList);
                 List<Integer> handCardValues = DdzTable.cardIndexConvertcardValue(handCardList);
                 log.debug("roomId={} handCardValues = {}", roomId, handCardValues);
@@ -1011,7 +1010,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
     public static AtomicInteger roomCount = new AtomicInteger(0);
     @Override
     public void destroy() {
-        log.debug("完成第 {} 局游戏",roomCount);
+        log.warn("完成第 {} 局游戏",roomCount.incrementAndGet());
         int gameInning = gameZone.getInning();
         //重开后，是一个新的GameZone不会影响。赛事没有重开，都不叫分的情况下，第一个玩家时地主
         boolean isFinish = gameInning >= inningLimit;
