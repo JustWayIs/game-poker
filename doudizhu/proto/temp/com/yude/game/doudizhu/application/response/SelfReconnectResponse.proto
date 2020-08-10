@@ -13,15 +13,15 @@ repeated sint32 handCards=3;
  sint32 redouble=5;
 repeated CardDTO outCardTips=6;
 }
-message CardDTO {  
-repeated sint32 cards=1;
- sint32 cardType=2;
-}
 message PlayerDTO {  
  sint64 userId=1;
  string name=2;
  string headUrl=3;
  sint64 score=4;
+}
+message CardDTO {  
+repeated sint32 cards=1;
+ sint32 cardType=2;
 }
 message GameZoneInfoDTO {  
  sint64 roomId=1;

@@ -17,6 +17,10 @@ repeated sint32 redoubleNumOptions=12;
  sint64 remaningTime=13;
  RedoubleDetailResponse redoubleDetail=14;
 }
+message CardDTO {  
+repeated sint32 cards=1;
+ sint32 cardType=2;
+}
 message RedoubleDetailResponse {  
  sint32 baseScore=1;
  sint32 bombCount=2;
@@ -25,8 +29,4 @@ message RedoubleDetailResponse {
  sint32 landlordRedoubleNum=5;
  sint32 farmerRedoubleNum=6;
  sint32 resultRedoubleNum=7;
-}
-message CardDTO {  
-repeated sint32 cards=1;
- sint32 cardType=2;
 }
