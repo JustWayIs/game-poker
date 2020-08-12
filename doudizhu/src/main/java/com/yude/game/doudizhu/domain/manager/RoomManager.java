@@ -10,16 +10,12 @@ import com.yude.game.common.model.AbstractRoomModel;
 import com.yude.game.common.model.Player;
 import com.yude.game.common.util.AtomicSeatDown;
 import com.yude.game.common.util.TempSeatPool;
-import com.yude.game.doudizhu.constant.command.PushCommandCode;
 import com.yude.game.doudizhu.application.response.MatchFinishResponse;
 import com.yude.game.doudizhu.application.response.dto.PlayerDTO;
 import com.yude.game.doudizhu.application.response.dto.SeatInfoDTO;
-
-
-import com.yude.game.doudizhu.timeout.DdzTimeoutTask;
+import com.yude.game.doudizhu.constant.command.PushCommandCode;
 import com.yude.game.doudizhu.timeout.DdzTimeoutTaskPool;
 import com.yude.protocol.common.constant.StatusCodeEnum;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,7 +149,7 @@ public class RoomManager<T extends
             throw new SystemException(StatusCodeEnum.MATCH_FAIL);
         }
         //这里不一定准，可能处于并发状态
-        log.error("匹配队列中的人数：{}", matchCount.incrementAndGet());
+        log.debug("匹配过的人数：{}", matchCount.incrementAndGet());
     }
     public static AtomicInteger matchCount = new AtomicInteger(0);
 
@@ -236,6 +232,9 @@ public class RoomManager<T extends
     @Override
     public AbstractRoomModel getRoomByUserId(Long userId) {
         Long roomId = getRoomIdByUserId(userId);
+        if(roomId == null){
+            return null;
+        }
         AbstractRoomModel roomModel = getRoomByRoomId(roomId);
         return roomModel;
     }

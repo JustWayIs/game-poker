@@ -2,14 +2,11 @@ package com.yude.game.doudizhu.timeout;
 
 import com.baidu.bjf.remoting.protobuf.Any;
 import com.yude.game.common.dispatcher.event.DisruptorRegistrar;
-import com.yude.game.common.manager.IPushManager;
-import com.yude.game.common.manager.impl.PushManager;
 import com.yude.game.common.timeout.TimeoutRequestGenerator;
 import com.yude.game.common.timeout.TimeoutTask;
 import com.yude.game.communication.dispatcher.IProducerWithTranslator;
 import com.yude.game.doudizhu.domain.DouDiZhuRoom;
 import com.yude.game.doudizhu.domain.DouDiZhuZone;
-
 import com.yude.protocol.common.MessageType;
 import com.yude.protocol.common.message.GameRequestMessage;
 import com.yude.protocol.common.message.GameRequestMessageHead;
@@ -36,7 +33,6 @@ public class DdzTimeoutTask implements TimeoutTask {
 
     private volatile DouDiZhuRoom room;
     private DouDiZhuRoom cloneRoom;
-    private IPushManager pushManager;
     private long activeTime;
 
     static {
@@ -45,18 +41,17 @@ public class DdzTimeoutTask implements TimeoutTask {
         requestGenerators.add(new OperationCardRequestGenerator());
     }
 
-    public DdzTimeoutTask(DouDiZhuRoom room, IPushManager pushManager) {
+    public DdzTimeoutTask(DouDiZhuRoom room) {
         this.room = room;
         try {
-            this.cloneRoom = (DouDiZhuRoom) room.clone();
+            this.cloneRoom = room.clone();
         } catch (CloneNotSupportedException e) {
             log.error("clone room 失败 room={}", room, e);
         }
-        this.pushManager = pushManager;
         this.activeTime = TimeUnit.NANOSECONDS.convert(room.getGameStatus().getTimeoutTime(), TimeUnit.SECONDS) + System.nanoTime();
     }
 
-    public DdzTimeoutTask(long milliseconds,DouDiZhuRoom room,IPushManager pushManager) {
+    public DdzTimeoutTask(long milliseconds,DouDiZhuRoom room) {
         log.info("自定义时间： milliseconds={}",milliseconds);
         this.room = room;
         try {
@@ -64,7 +59,6 @@ public class DdzTimeoutTask implements TimeoutTask {
         } catch (CloneNotSupportedException e) {
             log.error("clone room 失败 room={}", room, e);
         }
-        this.pushManager = pushManager;
         this.activeTime = TimeUnit.NANOSECONDS.convert(milliseconds,TimeUnit.MILLISECONDS)+ System.nanoTime();
     }
 
@@ -73,7 +67,6 @@ public class DdzTimeoutTask implements TimeoutTask {
     @Override
     public void execute() {
         log.info("超时任务触发：  roomId={}  time={}", room.getRoomId(), System.nanoTime());
-
         //这个设想要基于没有重复的step【至少要保证游戏的 玩家操作流程 的step不重复】
         Integer maxStepCount = DdzTimeoutTaskPool.uselessTaskMap.get(cloneRoom.getRoomId());
         log.info("失效的任务： {}", DdzTimeoutTaskPool.uselessTaskMap);
@@ -83,7 +76,7 @@ public class DdzTimeoutTask implements TimeoutTask {
         }
         DouDiZhuZone cloneGameZone = cloneRoom.getDouDiZhuZone();
         DouDiZhuZone douDiZhuZone = room.getDouDiZhuZone();
-        if(cloneGameZone.getRound() != douDiZhuZone.getRound() || cloneGameZone.getInning() != douDiZhuZone.getInning()){
+        if(!room.getRoomId().equals(cloneRoom.getRoomId()) || !douDiZhuZone.getZoneId().equals(cloneGameZone.getZoneId())){
             log.info("不是同一局游戏，超时任务失效 roomId={}  zoneId={} cloneZoneId={}",room.getRoomId(),douDiZhuZone.getZoneId(),cloneGameZone.getZoneId());
             return;
         }

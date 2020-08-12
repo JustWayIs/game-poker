@@ -13,6 +13,8 @@ import com.yude.game.doudizhu.application.service.PlayerActionService;
 import com.yude.game.doudizhu.domain.DouDiZhuRoom;
 import com.yude.protocol.common.constant.StatusCodeEnum;
 import com.yude.protocol.common.request.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PlayerActionServiceImpl implements PlayerActionService {
+    private static final Logger log = LoggerFactory.getLogger(PlayerActionServiceImpl.class);
+
     @Autowired
     IRoomManager roomManager;
 
@@ -31,6 +35,11 @@ public class PlayerActionServiceImpl implements PlayerActionService {
         Long userId = request.getUserIdByChannel();
         //问题在于 强制类型转换 是否属于设计上的失误？ 如果添加一个抽象层的话看，像AbstractRoomModel 和 DouDiZhuRoom 的关系一样。把属性全部转换成protected 还是使用private的属性，用public的方法来获取？
         AbstractRoomModel room = roomManager.getRoomByUserId(userId);
+        if(room == null){
+            log.warn("玩家已经不在游戏中: userId={}",userId);
+            //得判断是不是超时任务，如果是超时任务就不用抛这个异常
+            // throw new BizException("玩家已不在游戏中");
+        }
         return (DouDiZhuRoom) room;
     }
 

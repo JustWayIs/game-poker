@@ -100,7 +100,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         noticePlayersCallScoreOption();
 
         int time = (RuleConfig.ANIMATION_CALL_SCORE_DELAYED + getGameStatus().getTimeoutTime()) * 1000;
-        ddzTimeoutTask = new DdzTimeoutTask(time, this, roomManager.getPushManager());
+        ddzTimeoutTask = new DdzTimeoutTask(time, this);
         timeoutTaskPool.addTask(ddzTimeoutTask);
 
     }
@@ -157,7 +157,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
 
         if (landlordPosId == null) {
             noticePlayersCallScoreOption();
-            ddzTimeoutTask = new DdzTimeoutTask(this, roomManager.getPushManager());
+            ddzTimeoutTask = new DdzTimeoutTask(this);
             timeoutTaskPool.addTask(ddzTimeoutTask);
             return;
         }
@@ -186,7 +186,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         noticePlayersRedoubleOption(false);
 
         int time = (RuleConfig.ANIMATION_LANDLORD_OWNERSHIP_DELAYED + getGameStatus().getTimeoutTime()) * 1000;
-        ddzTimeoutTask = new DdzTimeoutTask(time, this, roomManager.getPushManager());
+        ddzTimeoutTask = new DdzTimeoutTask(time, this);
         timeoutTaskPool.addTask(ddzTimeoutTask);
     }
 
@@ -214,7 +214,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         int landlordPosId = gameZone.getLandlordPosId();
         if (posId == landlordPosId) {
             landlordRedouble(posId, landlordPosId, douDiZhuSeat, redoubleNum);
-            ddzTimeoutTask = new DdzTimeoutTask(this, roomManager.getPushManager());
+            ddzTimeoutTask = new DdzTimeoutTask(this);
             timeoutTaskPool.addTask(ddzTimeoutTask);
             return;
         }
@@ -228,7 +228,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
             //存在着时间差，有个临界点
             log.info("roomId={} 加倍操作剩余时间： {}", roomId, remainingTime);
             remainingTime = remainingTime > 0 ? remainingTime : 100;
-            ddzTimeoutTask = new DdzTimeoutTask(remainingTime, this, roomManager.getPushManager());
+            ddzTimeoutTask = new DdzTimeoutTask(remainingTime, this);
             timeoutTaskPool.addTask(ddzTimeoutTask);
         }
     }
@@ -262,7 +262,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
                 log.info("地主需要进行加倍操作: roomId={} zoneId={}", roomId, gameZone.getZoneId());
                 //通知地主加倍
                 noticePlayersRedoubleOption(true);
-                ddzTimeoutTask = new DdzTimeoutTask(this, roomManager.getPushManager());
+                ddzTimeoutTask = new DdzTimeoutTask(this);
                 timeoutTaskPool.addTask(ddzTimeoutTask);
                 return false;
             }
@@ -270,7 +270,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
             landlordSeat.setStatus(SeatStatusEnum.OPERATION_CARD);
             noticePlayersRedoubleDetail();
             noticePlayerCurrentOperator(getGameStatus().getTimeoutTime());
-            ddzTimeoutTask = new DdzTimeoutTask(this, roomManager.getPushManager());
+            ddzTimeoutTask = new DdzTimeoutTask(this);
             timeoutTaskPool.addTask(ddzTimeoutTask);
         }
 
@@ -467,7 +467,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
                     IPushManager pushManager = roomManager.getPushManager();
                     OutCardTipsResponse response = new OutCardTipsResponse(effectiveList);
                     pushManager.pushToUser(PushCommandCode.OUT_CARD_TIPS, seat.getUserId(), response, roomId);
-                    ddzTimeoutTask = new DdzTimeoutTask(this, roomManager.getPushManager());
+                    ddzTimeoutTask = new DdzTimeoutTask(this);
                     timeoutTaskPool.addTask(ddzTimeoutTask);
                     return;
                 }/*else {
@@ -483,11 +483,11 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         pushManager.pushToUser(PushCommandCode.OUT_CARD_TIPS, seat.getUserId(), response, roomId);
         if (isSelf) {
             noticePlayerCurrentOperator(gameZone.getGameStatus().getTimeoutTime());
-            ddzTimeoutTask = new DdzTimeoutTask(this, roomManager.getPushManager());
+            ddzTimeoutTask = new DdzTimeoutTask(this);
             timeoutTaskPool.addTask(ddzTimeoutTask);
         } else {
             noticePlayerCurrentOperator(RuleConfig.OPERATION_TIME_CAN_NOT_WIN);
-            ddzTimeoutTask = new DdzTimeoutTask(RuleConfig.OPERATION_TIME_CAN_NOT_WIN * 1000, this, roomManager.getPushManager());
+            ddzTimeoutTask = new DdzTimeoutTask(RuleConfig.OPERATION_TIME_CAN_NOT_WIN * 1000, this);
             timeoutTaskPool.addTask(ddzTimeoutTask);
         }
 
@@ -773,7 +773,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
             if(handCardList.size() == 1){
                 int lastOutCardPosId = gameZone.getLastOutCardPosId();
                 if(currentPosId == lastOutCardPosId){
-                    ddzTimeoutTask = new DdzTimeoutTask(100, this, roomManager.getPushManager());
+                    ddzTimeoutTask = new DdzTimeoutTask(100, this);
                     timeoutTaskPool.addTask(ddzTimeoutTask);
                 }
             }
@@ -913,10 +913,10 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         currentOperatorPosIds.stream().forEach(posId -> {
             DouDiZhuSeat seat = posIdSeatMap.get(posId);
             if (seat.isAutoOperation()) {
-                ddzTimeoutTask = new DdzTimeoutTask(5, this, roomManager.getPushManager());
+                ddzTimeoutTask = new DdzTimeoutTask(5, this);
                 timeoutTaskPool.addTask(ddzTimeoutTask);
             } else {
-                ddzTimeoutTask = new DdzTimeoutTask(getGameStatus().getTimeoutTime(), this, roomManager.getPushManager());
+                ddzTimeoutTask = new DdzTimeoutTask(getGameStatus().getTimeoutTime(), this);
                 timeoutTaskPool.addTask(ddzTimeoutTask);
             }
         });
@@ -1010,9 +1010,8 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
     public static AtomicInteger roomCount = new AtomicInteger(0);
     @Override
     public void destroy() {
-        log.warn("完成第 {} 局游戏",roomCount.incrementAndGet());
+        log.debug("完成第 {} 局游戏",roomCount.incrementAndGet());
         int gameInning = gameZone.getInning();
-        //重开后，是一个新的GameZone不会影响。赛事没有重开，都不叫分的情况下，第一个玩家时地主
         boolean isFinish = gameInning >= inningLimit;
         if (isFinish) {
             log.info("房间销毁： roomId={} ", roomId);
