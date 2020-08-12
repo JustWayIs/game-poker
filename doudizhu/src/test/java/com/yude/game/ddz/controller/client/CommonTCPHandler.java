@@ -59,6 +59,7 @@ public abstract class CommonTCPHandler extends SimpleChannelInboundHandler<GameR
     public  String sessionId;
     public  Long userId;
     public  Integer posId;
+    public Integer landlord;
     public List<Integer> cards;
     public boolean status;
     public static AtomicLong userIdGenerator = new AtomicLong(30001);
@@ -157,7 +158,11 @@ public abstract class CommonTCPHandler extends SimpleChannelInboundHandler<GameR
                 if(cmd == PushCommandCode.LANDLORD_OWNERSHIP){
                     Any any = responseMessage.getAny();
                     LandlordOwnershipResponse unpack = any.unpack(LandlordOwnershipResponse.class);
-                    cards.addAll(unpack.getHoleCards());
+                    landlord = unpack.getLandlordPosId();
+                    if(posId.equals(landlord) ){
+                        cards.addAll(unpack.getHoleCards());
+                    }
+
                     return;
                 }
                 if(cmd == PushCommandCode.REDOUBLE_OPTION){
@@ -192,7 +197,7 @@ public abstract class CommonTCPHandler extends SimpleChannelInboundHandler<GameR
                     Any any = responseMessage.getAny();
                     CurrentOperatorResponse unpack = any.unpack(CurrentOperatorResponse.class);
                     List<Integer> operatorList = unpack.getOperatorList();
-                    if(operatorList.contains(0) && posId == 0){
+                    if(operatorList.contains(landlord) && posId == landlord){
                         GameRequestMessage msg = new GameRequestMessage();
                         GameRequestMessageHead msgHead = new GameRequestMessageHead();
                         msgHead.setSessionId(sessionId);
