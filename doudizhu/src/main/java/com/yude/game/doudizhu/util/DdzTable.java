@@ -37,7 +37,7 @@ public class DdzTable {
      */
     private static final Map<CardTypeInfo, List<String>> ratingCardMap = new HashMap<>(2 << 8);
 
-    public static List<CardDTO> bombList = new ArrayList<>();
+    public static final List<CardDTO> bombList = new ArrayList<>();
 
     public static void init() throws IOException {
         OrderProperties properties = PropertiesLoaderUtils.loadAllProperties("config/ddz-table.properties");

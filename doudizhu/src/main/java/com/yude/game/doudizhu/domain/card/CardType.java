@@ -705,7 +705,7 @@ public enum CardType implements JudgeCardType {
         return PokerProp.getCardScore(beforeCardIndex) - PokerProp.getCardScore(cardIndex) == 1 ? true : false;
     }
 
-    public static Comparator<Integer> cardComparator = (a, b) -> {
+    public static final Comparator<Integer> cardComparator = (a, b) -> {
         /**
          * 判断牌型时，排序应该是按牌的分值来算，而不是牌值本身（牌的自然顺序）
          * H2: 注意，这里改变了排序方式 改成了从大到小

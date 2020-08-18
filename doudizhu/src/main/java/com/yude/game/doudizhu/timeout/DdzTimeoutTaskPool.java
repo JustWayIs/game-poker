@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -45,7 +44,7 @@ public enum DdzTimeoutTaskPool implements TimeoutTaskPool {
     //roomId -> stepCouts
     //public static Map<Long, Set<Integer>> uselessTaskMap = new ConcurrentHashMap();
     //roomId -> maxStepCout
-    public static Map<Long, Integer> uselessTaskMap = new ConcurrentHashMap();
+    public static final Map<Long, Integer> uselessTaskMap = new ConcurrentHashMap();
 
     //public static Map<Long, Integer> effectiveTaskMap = new ConcurrentHashMap();
 

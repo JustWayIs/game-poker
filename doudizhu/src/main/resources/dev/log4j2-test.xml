@@ -26,7 +26,7 @@
         </SMTP>-->
 
         <RollingRandomAccessFile  name="RollingFileDebug" fileName="${logFilePath}/logs/debug.log"
-                     filePattern="${logFilePath}/logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+                     filePattern="${logFilePath}/logs/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log">
             <!--ThresholdFilter :日志输出过滤-->
             <!--level="debug" :日志级别,onMatch="ACCEPT" :级别在debug之上则接受,onMismatch="DENY" :级别在info之下则拒绝-->
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>

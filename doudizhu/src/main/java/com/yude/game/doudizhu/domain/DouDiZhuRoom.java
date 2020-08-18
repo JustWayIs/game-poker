@@ -623,8 +623,6 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         }
         CardDTO cardDTO = new CardDTO(lastOutCards, lastOutCard == null ? null : lastOutCard.getCardType().getType());
 
-        long lastOperationTime = gameZone.getLastOperationTime();
-        long nowTime = System.currentTimeMillis();
         long remainingTime = ddzTimeoutTask.getRemaining();
 
         DouDiZhuSeat landlordSeat = posIdSeatMap.get(gameZone.getLandlordPosId());
@@ -1007,7 +1005,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         destroy();
     }
 
-    public static AtomicInteger roomCount = new AtomicInteger(0);
+    public static final AtomicInteger roomCount = new AtomicInteger(0);
     @Override
     public void destroy() {
         log.debug("完成第 {} 局游戏",roomCount.incrementAndGet());

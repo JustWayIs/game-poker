@@ -10,16 +10,16 @@ public class RuleConfig {
     /**
      * 这个值后期会是动态的，相当于房间底注
      */
-    public static int baseScoreFactor = 1;
+    public static final int baseScoreFactor = 1;
     /**
      * 叫分的选择列表：保证顺序。第一个值一定是不叫分
      */
-    public static Integer[] callScoreOption = {0,1,2,3};
+    public static final Integer[] callScoreOption = {0,1,2,3};
 
     /**
      * 不加倍/加倍  保证顺序。第一个值是 不加倍
      */
-    public static Integer[] redoubleOption = {1,2};
+    public static final Integer[] redoubleOption = {1,2};
 
     /**
      * 剩余牌数警报

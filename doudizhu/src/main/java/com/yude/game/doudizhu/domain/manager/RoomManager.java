@@ -73,14 +73,14 @@ public class RoomManager<T extends
     /**
      * userId -> Player 假装是 获取玩家信息服务
      */
-    public static ConcurrentHashMap<Long, Player> playerStatusMap = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<Long, Player> playerStatusMap = new ConcurrentHashMap<>();
 
 
     private static final int ROUND_LIMIT = 1;
 
     private static final int INNING_LIMIT = 1;
 
-    protected static AtomicLong roomIdGenerator = new AtomicLong(System.currentTimeMillis());
+    protected static final AtomicLong roomIdGenerator = new AtomicLong(System.currentTimeMillis());
 
     private TempSeatPool tempSeatPool = TempSeatPool.getInstance();
 
@@ -151,7 +151,7 @@ public class RoomManager<T extends
         //这里不一定准，可能处于并发状态
         log.debug("匹配过的人数：{}", matchCount.incrementAndGet());
     }
-    public static AtomicInteger matchCount = new AtomicInteger(0);
+    public static final AtomicInteger matchCount = new AtomicInteger(0);
 
     long cur;
     List<Long> costTime = new ArrayList<>();
@@ -287,7 +287,7 @@ public class RoomManager<T extends
 
     public ExecutorService createRoomThreadPool() {
         createRoomThreadPool = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue(100000), (task) -> {
-            Thread thread = new Thread(task);
+            final Thread thread = new Thread(task);
             thread.setName("Thread-room-create");
             thread.setDaemon(true);
             return thread;
@@ -367,7 +367,7 @@ public class RoomManager<T extends
 
     }
 
-    public static AtomicInteger roomCount = new AtomicInteger(0);
+    public static final AtomicInteger roomCount = new AtomicInteger(0);
     class RoomCreateAndGameStartTask implements Runnable {
         private AtomicSeatDown atomicSeatDown;
 
