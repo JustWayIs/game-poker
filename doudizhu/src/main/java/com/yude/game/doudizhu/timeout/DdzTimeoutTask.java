@@ -69,9 +69,9 @@ public class DdzTimeoutTask implements TimeoutTask {
         log.info("超时任务触发：  roomId={}  time={}", room.getRoomId(), System.nanoTime());
         //这个设想要基于没有重复的step【至少要保证游戏的 玩家操作流程 的step不重复】
         Integer maxStepCount = DdzTimeoutTaskPool.uselessTaskMap.get(cloneRoom.getRoomId());
-        log.info("失效的任务： {}", DdzTimeoutTaskPool.uselessTaskMap);
+        log.debug("失效的任务： {}", DdzTimeoutTaskPool.uselessTaskMap);
         if (maxStepCount != null && maxStepCount >= cloneRoom.getStep()) {
-            log.info("超时任务已失效：roomId={} step:{}", room.getRoomId(), cloneRoom.getStep());
+            log.debug("超时任务已失效：roomId={} step:{}", room.getRoomId(), cloneRoom.getStep());
             return;
         }
         DouDiZhuZone cloneGameZone = cloneRoom.getDouDiZhuZone();

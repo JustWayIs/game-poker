@@ -38,7 +38,7 @@ public class AuthUserController {
     @Autowired
     IRoomManager roomManager;
 
-    @RequestCommand(value = CommandCode.LOGIN,messageType = MessageType.LOGIN)
+    @RequestCommand(value = CommandCode.LOGIN,messageType = MessageType.SERVICE)
     public Response auth(LoginRequest request, ChannelHandlerContext context){
         log.debug("收到登录请求： request={}",request);
         /**

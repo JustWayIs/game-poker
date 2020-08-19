@@ -1,16 +1,16 @@
 package com.yude.game.doudizhu.application.service.impl;
 
-import com.yude.game.common.exception.BizException;
+
 import com.yude.game.common.manager.IRoomManager;
 import com.yude.game.common.model.AbstractRoomModel;
-import com.yude.game.doudizhu.constant.status.GameStatusEnum;
 import com.yude.game.doudizhu.application.request.CallScoreRequest;
 import com.yude.game.doudizhu.application.request.OperationCardRequest;
 import com.yude.game.doudizhu.application.request.ReconnectionRequest;
 import com.yude.game.doudizhu.application.request.RedoubleScoreRequest;
 import com.yude.game.doudizhu.application.service.PlayerActionService;
-
+import com.yude.game.doudizhu.constant.status.GameStatusEnum;
 import com.yude.game.doudizhu.domain.DouDiZhuRoom;
+import com.yude.game.exception.BizException;
 import com.yude.protocol.common.constant.StatusCodeEnum;
 import com.yude.protocol.common.request.Request;
 import org.slf4j.Logger;
@@ -46,6 +46,9 @@ public class PlayerActionServiceImpl implements PlayerActionService {
     @Override
     public void callScore(CallScoreRequest request) {
         DouDiZhuRoom roomModel = getRoom(request);
+        if(roomModel == null){
+            return;
+        }
         int posId = roomModel.getPosId(request.getUserIdByChannel());
         GameStatusEnum gameStatus = roomModel.getGameStatus();
         if(!validProcess(gameStatus,GameStatusEnum.CALL_SCORE)){
@@ -58,6 +61,9 @@ public class PlayerActionServiceImpl implements PlayerActionService {
     @Override
     public void redouble(RedoubleScoreRequest request) {
         DouDiZhuRoom roomModel = getRoom(request);
+        if(roomModel == null){
+            return;
+        }
         int posId = roomModel.getPosId(request.getUserIdByChannel());
         GameStatusEnum gameStatus = roomModel.getGameStatus();
         if(!validProcess(gameStatus,GameStatusEnum.FARMERS_REDOUBLE) && !validProcess(gameStatus,GameStatusEnum.LANDOWNERS_REDOUBLE)){
@@ -70,6 +76,9 @@ public class PlayerActionServiceImpl implements PlayerActionService {
     @Override
     public void operationCard(OperationCardRequest request) {
         DouDiZhuRoom roomModel = getRoom(request);
+        if(roomModel == null){
+            return;
+        }
         int posId = roomModel.getPosId(request.getUserIdByChannel());
         GameStatusEnum gameStatus = roomModel.getGameStatus();
         if(!validProcess(gameStatus,GameStatusEnum.OPERATION_CARD)){
@@ -81,6 +90,9 @@ public class PlayerActionServiceImpl implements PlayerActionService {
     @Override
     public void reconnection(ReconnectionRequest request) {
         DouDiZhuRoom roomModel = getRoom(request);
+        if(roomModel == null){
+            return;
+        }
         roomModel.reconnect(request.getUserId());
     }
 }

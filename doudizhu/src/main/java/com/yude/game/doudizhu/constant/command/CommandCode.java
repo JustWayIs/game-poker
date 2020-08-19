@@ -12,11 +12,6 @@ import com.yude.game.common.command.BaseCommandCode;
 public interface CommandCode extends BaseCommandCode {
 
     /**
-     * 登录
-     */
-    int LOGIN = 0x1001;
-
-    /**
      * 匹配
      */
     int MATCH = 0x1003;
