@@ -97,10 +97,6 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat,GameStatusE
      */
     private boolean springTime;
 
-    /**
-     * 超时机制
-     */
-    private volatile long lastOperationTime;
 
     /**
      * 是否为重开局（都不叫分）的标识
@@ -346,7 +342,7 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat,GameStatusE
         return winnerPosId == landlordPosId;
     }
 
-    void deal(Long roomId) {
+    public void deal(Long roomId) {
         for (DouDiZhuSeat seat : playerSeats) {
             int i = 0;
 
@@ -378,7 +374,7 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat,GameStatusE
             seat.setStatus(SeatStatusEnum.CALL_SCORE);
 
         }
-        cardDeck.toArray(getHoleCards());
+        cardDeck.toArray(holeCards);
         //发牌应该是3步 还是1步
         stepAdd();
 
@@ -400,9 +396,6 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat,GameStatusE
         return beforeCallScore;
     }
 
-    public void stepAdd() {
-        stepCount++;
-    }
 
     public Integer[] getHoleCards() {
         return holeCards;
@@ -497,10 +490,6 @@ public class DouDiZhuZone extends AbstractGameZoneModel<DouDiZhuSeat,GameStatusE
 
     public int getLastOutCardPosId() {
         return lastOutCardPosId;
-    }
-
-    public long getLastOperationTime() {
-        return lastOperationTime;
     }
 
     public int getNextPosIdInfo() {
