@@ -7,11 +7,10 @@ import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import com.yude.game.communication.tcp.server.CommonTCPServer;
 import com.yude.game.doudizhu.domain.DouDiZhuRoom;
 import com.yude.game.doudizhu.domain.manager.RoomManager;
+import com.yude.game.doudizhu.timeout.DdzTimeoutTaskPool;
 import com.yude.game.doudizhu.util.DdzTable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
@@ -56,11 +55,11 @@ public class DdzGameAppliaction {
             thread.start();
 
             RoomManager roomManager = context.getBean(RoomManager.class);
-            roomManager.initRoomType(DouDiZhuRoom.class);
+            roomManager.initRoomType(DouDiZhuRoom.class,3);
 
             DdzTable.init();
             jprotobufClassInit();
-
+            DdzTimeoutTaskPool.getInstance().init();
         } catch (Exception e) {
            log.error("斗地主游戏服启动失败",e);
            System.exit(1);

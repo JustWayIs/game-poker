@@ -76,8 +76,8 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
          */
         DouDiZhuSeat[] seatModels = new DouDiZhuSeat[posIdSeatMap.size()];
         int i = 0;
-        for (Object seat : posIdSeatMap.values()) {
-            DouDiZhuSeat seatModel = (DouDiZhuSeat) seat;
+        for (DouDiZhuSeat seat : posIdSeatMap.values()) {
+            DouDiZhuSeat seatModel = seat;
             seatModels[i] = seatModel;
             i++;
         }
@@ -318,7 +318,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
 
         List<Integer> handCardList = douDiZhuSeat.getHandCardList();
         if (size != 0 && !isExistsAll(handCardList, cardList)) {
-            log.error("roomId={} 出牌参数中，有的牌在手牌中不存在 param={}  handcard={}", roomId,cardList,handCardList);
+            log.error("roomId={} zoneId={{} userId={} posId={} 出牌参数中，有的牌在手牌中不存在 param={}  handcard={}", roomId, gameZone.getZoneId(),douDiZhuSeat.getUserId(),douDiZhuSeat.getPosId(),cardList,handCardList);
             throw new BizException(StatusCodeEnum.ILLEGAL_CARD);
         }
         timeoutTaskPool.addUseLessTask(roomId, getStep());
@@ -326,7 +326,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         //不出
         if (size == 0) {
             pass(douDiZhuSeat);
-            log.info("玩家剩余牌：roomId={} zoneId={} handCards={}", roomId, gameZone.getZoneId(), douDiZhuSeat.getHandCardList());
+            log.info("玩家剩余牌：roomId={} zoneId={} posId={} handCards={}", roomId, gameZone.getZoneId(), douDiZhuSeat.getPosId(),douDiZhuSeat.getHandCardList());
             return;
         }
 

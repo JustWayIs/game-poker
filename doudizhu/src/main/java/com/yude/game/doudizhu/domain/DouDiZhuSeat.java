@@ -3,11 +3,9 @@ package com.yude.game.doudizhu.domain;
 import com.yude.game.common.constant.Status;
 import com.yude.game.common.model.AbstractSeatModel;
 import com.yude.game.common.model.Player;
-import com.yude.game.doudizhu.constant.RuleConfig;
+import com.yude.game.doudizhu.application.response.dto.CardDTO;
 import com.yude.game.doudizhu.constant.status.SeatStatusEnum;
 import com.yude.game.doudizhu.domain.card.Card;
-import com.yude.game.doudizhu.application.response.dto.CardDTO;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -12,7 +12,6 @@ import com.yude.game.doudizhu.application.response.MatchFinishResponse;
 import com.yude.game.doudizhu.application.response.dto.PlayerDTO;
 import com.yude.game.doudizhu.application.response.dto.SeatInfoDTO;
 import com.yude.game.doudizhu.constant.command.PushCommandCode;
-import com.yude.game.doudizhu.timeout.DdzTimeoutTaskPool;
 import com.yude.game.exception.BizException;
 import com.yude.game.exception.SystemException;
 import com.yude.protocol.common.constant.StatusCodeEnum;
@@ -82,7 +81,7 @@ public class RoomManager<T extends
 
     protected static final AtomicLong roomIdGenerator = new AtomicLong(System.currentTimeMillis());
 
-    private TempSeatPool tempSeatPool = TempSeatPool.getInstance();
+    private TempSeatPool tempSeatPool;
 
     protected long getNewRoomId() {
         long roomId = RoomManager.roomIdGenerator.getAndIncrement();
@@ -245,8 +244,9 @@ public class RoomManager<T extends
         return pushManager;
     }
 
-    public void initRoomType(Class<T> roomType) {
+    public void initRoomType(Class<T> roomType,int playerNum) {
         this.roomType = roomType;
+        tempSeatPool = TempSeatPool.matchPlayerInstance(playerNum);
     }
 
 
@@ -271,7 +271,6 @@ public class RoomManager<T extends
         createMatchThreadPool();
         createRoomThreadPool();
         executeMatchThread(matchThreadPool);
-        DdzTimeoutTaskPool.getInstance().init();
     }
 
     public ExecutorService createMatchThreadPool() {
