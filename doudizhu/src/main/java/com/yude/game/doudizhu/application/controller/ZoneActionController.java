@@ -14,9 +14,9 @@ import com.yude.game.doudizhu.application.request.OperationCardRequest;
 import com.yude.game.doudizhu.application.request.ReconnectionRequest;
 import com.yude.game.doudizhu.application.request.RedoubleScoreRequest;
 import com.yude.game.doudizhu.application.service.PlayerActionService;
+import com.yude.game.doudizhu.constant.DdzStatusCodeEnum;
 import com.yude.game.doudizhu.constant.command.CommandCode;
 import com.yude.game.exception.BizException;
-import com.yude.protocol.common.constant.StatusCodeEnum;
 import com.yude.protocol.common.response.CommonResponse;
 import com.yude.protocol.common.response.Response;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class ZoneActionController  implements BaseController{
         log.info("收到叫分请求： request={}",request);
         Integer callScore = request.getCallScore();
         if(callScore == null){
-            throw new BizException(StatusCodeEnum.PARAM_VALID_FAIL);
+            throw new BizException(DdzStatusCodeEnum.PARAM_VALID_FAIL);
         }
         playerActionService.callScore(request);
     }
@@ -44,7 +44,7 @@ public class ZoneActionController  implements BaseController{
     public Response doubleScore(RedoubleScoreRequest request){
         log.info("收到加倍操作请求： request={}",request);
         playerActionService.redouble(request);
-        CommonResponse response = new CommonResponse(StatusCodeEnum.SUCCESS);
+        CommonResponse response = new CommonResponse(DdzStatusCodeEnum.SUCCESS);
         return response;
     }
 
@@ -62,7 +62,7 @@ public class ZoneActionController  implements BaseController{
     @RequestCommand(CommandCode.RECONNECTION)
     public void reconnection(ReconnectionRequest request){
         if(!validUser(request,request.getUserId())){
-            throw new BizException("匹配用户校验失败,channel保存的玩家标识 与请求参数中的玩家标识不一致",StatusCodeEnum.MATCH_VALID_FAIL);
+            throw new BizException("匹配用户校验失败,channel保存的玩家标识 与请求参数中的玩家标识不一致",DdzStatusCodeEnum.MATCH_VALID_FAIL);
         }
         playerActionService.reconnection(request);
     }

@@ -1,6 +1,7 @@
 package com.yude.game.doudizhu.application.response;
 
-import com.yude.protocol.common.constant.StatusCodeEnum;
+
+import com.yude.game.doudizhu.constant.DdzStatusCodeEnum;
 import com.yude.protocol.common.response.BaseResponse;
 import com.yude.protocol.common.response.CommonResponse;
 
@@ -32,17 +33,17 @@ public class LoginResponse extends BaseResponse {
     public LoginResponse(String sessionId,Integer status){
         this.sessionId = sessionId;
         this.status = status;
-        commonResponse = new CommonResponse(StatusCodeEnum.SUCCESS);
+        commonResponse = new CommonResponse(DdzStatusCodeEnum.SUCCESS);
     }
 
     public LoginResponse(String sessionId,Integer status,Long roomId){
         this.sessionId = sessionId;
         this.status = status;
         this.roomId = roomId;
-        commonResponse = new CommonResponse(StatusCodeEnum.SUCCESS);
+        commonResponse = new CommonResponse(DdzStatusCodeEnum.SUCCESS);
     }
 
-    public LoginResponse(StatusCodeEnum status, String sessionId) {
+    public LoginResponse(DdzStatusCodeEnum status, String sessionId) {
         super();
         this.commonResponse = new CommonResponse(status);
         this.sessionId = sessionId;

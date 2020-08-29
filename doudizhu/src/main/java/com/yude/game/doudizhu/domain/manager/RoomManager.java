@@ -11,10 +11,11 @@ import com.yude.game.common.util.TempSeatPool;
 import com.yude.game.doudizhu.application.response.MatchFinishResponse;
 import com.yude.game.doudizhu.application.response.dto.PlayerDTO;
 import com.yude.game.doudizhu.application.response.dto.SeatInfoDTO;
+import com.yude.game.doudizhu.constant.DdzStatusCodeEnum;
 import com.yude.game.doudizhu.constant.command.PushCommandCode;
 import com.yude.game.exception.BizException;
 import com.yude.game.exception.SystemException;
-import com.yude.protocol.common.constant.StatusCodeEnum;
+import com.yude.protocol.common.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,13 +112,13 @@ public class RoomManager<T extends
         Player player = RoomManager.pullPlayer(userId);
         if (player == null) {
             log.error("拉取玩家信息失败： userId={}", userId);
-            throw new BizException(StatusCodeEnum.FAIL);
+            throw new BizException(DdzStatusCodeEnum.FAIL);
         }
 
         Status playerStatus = player.getStatus();
         if (playerStatus.status() > PlayerStatusEnum.FREE_TIME.status()) {
             log.error("该玩家当前状态不能进行匹配： {}", playerStatus.status());
-            throw new BizException(StatusCodeEnum.MATCH_EXISTS);
+            throw new BizException(DdzStatusCodeEnum.MATCH_EXISTS);
         }
 
         //要通知管理服务器修改玩家状态
@@ -139,13 +140,13 @@ public class RoomManager<T extends
         /*boolean offer = matchQueue.offer(userId);
         if (!offer) {
             log.warn("加入匹配队列失败： userId={}", userId);
-            throw new BizException(StatusCodeEnum.MATCH_FAIL);
+            throw new BizException(DdzStatusCodeEnum.MATCH_FAIL);
         }*/
         try {
             matchQueue.put(userId);
         } catch (InterruptedException e) {
             log.error("加入匹配队列失败： userId={} ",userId,e);
-            throw new SystemException(StatusCodeEnum.MATCH_FAIL);
+            throw new SystemException(DdzStatusCodeEnum.MATCH_FAIL);
         }
         //这里不一定准，可能处于并发状态
         log.debug("匹配过的人数：{}", matchCount.incrementAndGet());
@@ -242,6 +243,11 @@ public class RoomManager<T extends
     @Override
     public IPushManager getPushManager() {
         return pushManager;
+    }
+
+    @Override
+    public void pushToUser(Integer command, Long userId, Response response, Long roomId) {
+        pushManager.pushToUser(command,userId,response,roomId);
     }
 
     public void initRoomType(Class<T> roomType,int playerNum) {

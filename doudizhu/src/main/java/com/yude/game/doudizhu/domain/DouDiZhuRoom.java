@@ -10,6 +10,7 @@ import com.yude.game.common.model.Player;
 import com.yude.game.doudizhu.application.response.*;
 import com.yude.game.doudizhu.application.response.dto.*;
 import com.yude.game.doudizhu.constant.CommonConstant;
+import com.yude.game.doudizhu.constant.DdzStatusCodeEnum;
 import com.yude.game.doudizhu.constant.RuleConfig;
 import com.yude.game.doudizhu.constant.command.PushCommandCode;
 import com.yude.game.doudizhu.constant.status.GameStatusEnum;
@@ -24,7 +25,6 @@ import com.yude.game.doudizhu.timeout.DdzTimeoutTaskPool;
 import com.yude.game.doudizhu.util.DdzTable;
 import com.yude.game.exception.BizException;
 import com.yude.game.exception.SystemException;
-import com.yude.protocol.common.constant.StatusCodeEnum;
 import com.yude.protocol.common.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,13 +130,13 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         }
 
         if (!RuleConfig.isExistsCallScoreOpion(score)) {
-            throw new BizException(StatusCodeEnum.ILLEGAL_CALL_SCORE);
+            throw new BizException(DdzStatusCodeEnum.ILLEGAL_CALL_SCORE);
         }
 
         //0分是不叫...
         if (score <= gameZone.getBeforeCallScore() && score != 0) {
             log.info("roomId={}  玩家叫分：{}  之前的分：{}", roomId, score, gameZone.getBeforeCallScore());
-            throw new BizException(StatusCodeEnum.CALL_SCORE_ERRO);
+            throw new BizException(DdzStatusCodeEnum.CALL_SCORE_ERRO);
         }
         //把当前步骤的超时任务标记为失效
         timeoutTaskPool.addUseLessTask(roomId, getStep());
@@ -319,7 +319,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         List<Integer> handCardList = douDiZhuSeat.getHandCardList();
         if (size != 0 && !isExistsAll(handCardList, cardList)) {
             log.error("roomId={} zoneId={{} userId={} posId={} 出牌参数中，有的牌在手牌中不存在 param={}  handcard={}", roomId, gameZone.getZoneId(),douDiZhuSeat.getUserId(),douDiZhuSeat.getPosId(),cardList,handCardList);
-            throw new BizException(StatusCodeEnum.ILLEGAL_CARD);
+            throw new BizException(DdzStatusCodeEnum.ILLEGAL_CARD);
         }
         timeoutTaskPool.addUseLessTask(roomId, getStep());
         douDiZhuSeat.setOutCardTips(null);
@@ -345,7 +345,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         gameZone.operationCard(posId, null);
         if (!gameZone.canPass(posId)) {
             log.warn("该玩家不能不出牌：roomId={} posId={}", roomId, douDiZhuSeat.getPosId());
-            throw new BizException(StatusCodeEnum.MUST_OUT_CARD);
+            throw new BizException(DdzStatusCodeEnum.MUST_OUT_CARD);
         }
         OperationCardStep operationCardStep = new OperationCardStep(gameZone.getStepCount(), posId, douDiZhuSeat.getHandCardList().size(), new ArrayList(douDiZhuSeat.getHandCardList()), gameZone.getGameStatus());
 

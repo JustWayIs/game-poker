@@ -4,9 +4,9 @@ import com.yude.game.common.command.annotation.RequestCommand;
 import com.yude.game.common.command.annotation.RequestController;
 import com.yude.game.doudizhu.application.request.MatchRequest;
 import com.yude.game.doudizhu.application.service.JoinRoomService;
+import com.yude.game.doudizhu.constant.DdzStatusCodeEnum;
 import com.yude.game.doudizhu.constant.command.CommandCode;
 import com.yude.game.exception.BizException;
-import com.yude.protocol.common.constant.StatusCodeEnum;
 import com.yude.protocol.common.response.CommonResponse;
 import com.yude.protocol.common.response.Response;
 import org.slf4j.Logger;
@@ -30,10 +30,10 @@ public class JoinRoomController implements BaseController{
     @RequestCommand(CommandCode.MATCH)
     public Response match(MatchRequest request){
         if(!validUser(request,request.getUserId())){
-            throw new BizException("匹配用户校验失败,channel保存的玩家标识 与请求参数中的玩家标识不一致",StatusCodeEnum.MATCH_VALID_FAIL);
+            throw new BizException("匹配用户校验失败,channel保存的玩家标识 与请求参数中的玩家标识不一致", DdzStatusCodeEnum.MATCH_VALID_FAIL);
         }
         joinRoomService.match(request);
-        CommonResponse commonResponse = new CommonResponse(StatusCodeEnum.SUCCESS);
+        CommonResponse commonResponse = new CommonResponse(DdzStatusCodeEnum.SUCCESS);
         return commonResponse;
     }
 }

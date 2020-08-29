@@ -362,7 +362,7 @@ public class DdzTableGenerator {
         List<Integer> validList = new ArrayList<>();
         int length = 15;
         length = num == 0 ? num : length;
-        length = num == 2 ? 14 - num : length;
+        length = num == 2 ? length - num : length;
         /*for (int i = 0; i < length; i++) {
          *//**
          * 其实只要判断当前索引的array的值是否大于0就行了

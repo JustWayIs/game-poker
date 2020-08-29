@@ -1,8 +1,8 @@
 package com.yude.game.doudizhu.domain.card;
 
 
+import com.yude.game.doudizhu.constant.DdzStatusCodeEnum;
 import com.yude.game.exception.BizException;
-import com.yude.protocol.common.constant.StatusCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -813,7 +813,7 @@ public enum CardType implements JudgeCardType {
             return true;
         }
 
-        throw new BizException("非法的牌型比较", StatusCodeEnum.ILLEGAL_OUT);
+        throw new BizException("非法的牌型比较", DdzStatusCodeEnum.ILLEGAL_OUT);
     }*/
 
     /**
@@ -831,7 +831,7 @@ public enum CardType implements JudgeCardType {
             return true;
         }
 
-        throw new BizException("非法的牌型比较", StatusCodeEnum.ILLEGAL_OUT);
+        throw new BizException("非法的牌型比较", DdzStatusCodeEnum.ILLEGAL_OUT);
     }
 
 
