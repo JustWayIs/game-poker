@@ -45,7 +45,7 @@ public class RuleConfig {
     /**
      * 决定地主归属的动画耗时
      */
-    public static final int ANIMATION_LANDLORD_OWNERSHIP_DELAYED = 4;
+    public static final float ANIMATION_LANDLORD_OWNERSHIP_DELAYED = 1.6f;
 
 
     public static boolean isExistsCallScoreOpion(int score){

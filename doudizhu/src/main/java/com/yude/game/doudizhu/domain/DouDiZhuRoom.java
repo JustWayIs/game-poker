@@ -180,7 +180,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         noticePlayerCurrentOperator(getGameStatus().getTimeoutTime());
         noticePlayersRedoubleOption(false);
 
-        int time = (RuleConfig.ANIMATION_LANDLORD_OWNERSHIP_DELAYED + getGameStatus().getTimeoutTime()) * 1000;
+        int time = (int) ((RuleConfig.ANIMATION_LANDLORD_OWNERSHIP_DELAYED + getGameStatus().getTimeoutTime()) * 1000);
         ddzTimeoutTask = new DdzTimeoutTask(time, this);
         timeoutTaskPool.addTask(ddzTimeoutTask);
     }
@@ -217,7 +217,7 @@ public class DouDiZhuRoom extends AbstractRoomModel<DouDiZhuZone, DouDiZhuSeat, 
         long lastOperationTime = gameZone.getLastOperationTime();
         boolean isFinish = farmersRedouble(posId, landlordPosId, douDiZhuSeat, redoubleNum);
         long nowTime = System.currentTimeMillis();
-        long remainingTime = TimeUnit.MILLISECONDS.convert(getGameStatus().getTimeoutTime() + RuleConfig.ANIMATION_LANDLORD_OWNERSHIP_DELAYED, TimeUnit.SECONDS) + lastOperationTime  - nowTime;
+        long remainingTime = TimeUnit.MILLISECONDS.convert((long) (getGameStatus().getTimeoutTime() + RuleConfig.ANIMATION_LANDLORD_OWNERSHIP_DELAYED), TimeUnit.SECONDS) + lastOperationTime  - nowTime;
 
         if (!isFinish) {
             //存在着时间差，有个临界点
